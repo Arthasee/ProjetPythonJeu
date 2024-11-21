@@ -1,5 +1,7 @@
-import pygame
+"""Fichier avec les différentes Classes du jeu (Pokémon, Capacité)
+    """
 import random
+import pygame
 
 # Constantes
 GRID_SIZE = 8
@@ -39,7 +41,7 @@ class Unit:
     move(dx, dy)
         Déplace l'unité de dx, dy.
     attack(target)
-        Attaque une unité cible.
+        Capacite une unité cible.
     draw(screen)
         Dessine l'unité sur la grille.
     """
@@ -75,7 +77,7 @@ class Unit:
             self.y += dy
 
     def attack(self, target):
-        """Attaque une unité cible."""
+        """Capacite une unité cible."""
         if abs(self.x - target.x) <= 1 and abs(self.y - target.y) <= 1:
             target.health -= self.attack_power
 
@@ -89,8 +91,13 @@ class Unit:
                            2, self.y * CELL_SIZE + CELL_SIZE // 2), CELL_SIZE // 3)
 
 class Pokemon:
-    def __init__(self, pokemon):
+    """Construit un pokémon spécifique avec sa position, ses statistiques, 
+    ses capacités et son niveau
+    """
+
+    def __init__(self, pokemon, team):
         self.pokemon = pokemon
+        self. team = team
         self.x = 0
         self.y = 0
         self.nom = self.pokemon.nom
@@ -104,40 +111,104 @@ class Pokemon:
         self.faiblesse = self.pokemon.faiblesses
         self.capacites = self.pokemon.capacites
         self.niveau = self.pokemon.niveau
-    
-    def attaquer(self, attaque, adversaire):
-        CM = 1
-        Eff = 1
-        STAB = 1
-        if random.randint(0, 100) <= attaque.precision:
-            CM *= 1
+        self.is_selected = False
+
+    def move(self, dx, dy):
+        """Déplace l'unité de dx, dy."""
+        if 0 <= self.x + dx < GRID_SIZE and 0 <= self.y + dy < GRID_SIZE:
+            self.x += dx
+            self.y += dy
+
+    def draw(self, screen):
+        """Affiche l'unité sur l'écran."""
+        color = BLUE if self.team == 'player' else RED
+        if self.is_selected:
+            pygame.draw.rect(screen, GREEN, (self.x * CELL_SIZE,
+                             self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+        pygame.draw.circle(screen, color, (self.x * CELL_SIZE + CELL_SIZE //
+                           2, self.y * CELL_SIZE + CELL_SIZE // 2), CELL_SIZE // 3)
+
+    def attaquer(self, capacite, adversaire):
+        """fonction qui calcule les points de vie de l'adversaire touché par l'attaque
+
+        Args:
+            capacite (Capacite): Classe de la capacité
+            adversaire (Pokemon): Classe du pokémon adverse
+        """
+        cm = 1
+        eff = 1
+        stab = 1
+        if random.randint(0, 100) <= capacite.precision:
+            cm *= 1
         else :
-            CM *= 0
+            cm *= 0
         for types in adversaire.faiblesses:
-            if attaque.Type == types:
-                Eff *= 2
-        if attaque.Type == adversaire.type:
-            Eff *= 1/2   
-        if attaque.Type == self.type:
-            STAB *= 1.5
-        CM *= Eff*STAB 
-        adversaire.pv -= ((((self.niveau*0.4+2)*attaque.puissance*self.attaque)/adversaire.defense)/50 + 2)*CM
+            if capacite.Type == types:
+                eff *= 2
+        if capacite.Type == adversaire.type:
+            eff *= 1/2
+        if capacite.Type == self.type:
+            stab *= 1.5
+        cm *= eff*stab
+        adversaire.pv -= ((((self.niveau*0.4+2)*capacite.puissance*self.attaque)/adversaire.defense)/50 + 2)*cm
 
+    def non_attaquer(self, capacite, adversaire):
+        """fonction qui calcule la diminution ou l'augmentation des statistiques du pokémon
 
-class Attaque:
-    def __init__(self, nom, Type, puissance, precision, distance, niveau):
+        Args:
+            capacite (Capacite): Classe de la capacité utilisée
+            adversaire (Pokemon): Classe du Pokémon, 
+            peut être le pokémon attaquant lui-même si c'est un bonus
+        """
+        cm = 1
+        if random.randint(0,100) <= capacite.precision:
+            cm *= 1
+        else :
+            cm *= 0
+        if capacite.stat == "attaque":
+            adversaire.attaque *= capacite.puissance*cm
+        elif capacite.stat == "defense":
+            adversaire.defense *= capacite.puissance*cm
+        elif capacite.stat == "att_spe":
+            adversaire.att_spe *= capacite.puissance*cm
+        elif capacite.stat == "def_spe":
+            adversaire.def_spe *= capacite.puissance*cm
+        elif capacite.stat == "vitesse":
+            adversaire.vitesse *= capacite.puissance*cm
+
+class Capacite:
+    """Construit une capacité avec son type, sa puissance, sa précision, 
+    la distance qu'elle peut accéder, le niveau à avoir pour la débloquer, 
+    si la capacité est passive ou non, la statistique qu'elle touche si c'est une capacité passive
+    """
+    def __init__(self, nom, types, puissance, precision, distance, niveau, categorie, stat):
         self.nom = nom
-        self.type = Type
+        self.type = types
         self.puissance = puissance
         self.precision = precision
         self.distance = distance
         self.niveau = niveau
-    
+        self.categorie = categorie
+        self.stat = stat
+
 class Salameche:
+    """Construit la classe du pokémon Salamèche avec ses statistiques, force, faiblesse et capacité
+    """
     def __init__(self):
         self.nom = "Salamèche"
         self.stats = [39,52,43,60,50,65]
         self.type = ["feu"]
         self.faiblesse = ["eau", "sol", "roche"]
-        self.capacites = [Attaque("Griffe", "normal", 40, 100,1,1), Attaque("Rugissement", "normal", 0, 100,1,1)]
+        self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
+        self.niveau = 1
+
+class Carapuce:
+    """Construit la classe du pokémon Carapuce avec ses statistiques, force, faiblesse et capacité
+    """
+    def __init__(self):
+        self.nom = "Carapuce"
+        self.stats = [44,48,65,50,64,43]
+        self.type = ["eau"]
+        self.faiblesse = ["plante", "electrik"]
+        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Mimi-Queue", "normal", 2/3, 100, 1, 1, "non-attaque", "defense")]
         self.niveau = 1

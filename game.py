@@ -1,5 +1,7 @@
-import pygame
+"""Fichier du jeu principal
+    """
 import random
+import pygame
 
 from unit import *
 
@@ -116,6 +118,8 @@ class Game:
 
 
 def main():
+    """Fonction principal
+    """
 
     # Initialisation de Pygame
     pygame.init()
