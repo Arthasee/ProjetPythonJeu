@@ -212,3 +212,14 @@ class Carapuce:
         self.faiblesse = ["plante", "electrik"]
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Mimi-Queue", "normal", 2/3, 100, 1, 1, "non-attaque", "defense")]
         self.niveau = 1
+
+class Bulbizarre:
+    """Construit la classe du pokémon Bulbizarre avec ses statistiques, force, faiblesse et capacité
+    """
+    def __init__(self):
+        self.nom = "Bulbizarre"
+        self.stats = [45, 49, 49, 65, 65, 45]
+        self.type = ["plante, poison"]
+        self.faiblesse = ["feu", "glace", "vol", "psy"]
+        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
+        self.niveau = 1
