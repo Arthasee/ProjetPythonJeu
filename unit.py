@@ -228,7 +228,8 @@ class Bulbizarre:
         self.image = pygame.image.load("sprite/rfvf/1.png").convert()
         
 class Pikachu:
-    
+    """Construit la classe du pokémon Pikachu avec ses statistiques, force, faiblesse et capacité
+    """
     def __init__(self):
         self.nom = "Pikachu"
         self.stats = [35,55,30,50,40,90]
