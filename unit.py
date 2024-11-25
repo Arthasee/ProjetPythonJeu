@@ -201,7 +201,7 @@ class Salameche:
         self.faiblesse = ["eau", "sol", "roche"]
         self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
         self.niveau = 1
-        self.image = pygame.image.load("sprite/rfvf/4.png").convert_alpha()
+        self.image = [pygame.image.load("sprite/rfvf/4.png").convert_alpha(), pygame.image.load("sprite/rfvf/walk/o_hs_004_1.png").convert_alpha()]
 
 class Carapuce:
     """Construit la classe du pokémon Carapuce avec ses statistiques, force, faiblesse et capacité
@@ -213,7 +213,7 @@ class Carapuce:
         self.faiblesse = ["plante", "electrik"]
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Mimi-Queue", "normal", 2/3, 100, 1, 1, "non-attaque", "defense")]
         self.niveau = 1
-        self.image = pygame.image.load("sprite/rfvf/7.png").convert_alpha()
+        self.image = [pygame.image.load("sprite/rfvf/7.png").convert_alpha()]
 
 class Bulbizarre:
     """Construit la classe du pokémon Bulbizarre avec ses statistiques, force, faiblesse et capacité
@@ -225,7 +225,7 @@ class Bulbizarre:
         self.faiblesse = ["feu", "glace", "vol", "psy"]
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
         self.niveau = 1
-        self.image = pygame.image.load("sprite/rfvf/1.png").convert()
+        self.image = [pygame.image.load("sprite/rfvf/1.png").convert()]
         
 class Pikachu:
     """Construit la classe du pokémon Pikachu avec ses statistiques, force, faiblesse et capacité
@@ -237,4 +237,4 @@ class Pikachu:
         self.faiblesse = ["sol"]
         self.capacites = [Capacite("Éclair", "electrik", 40, 100, 2, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
         self.niveau = 1
-        self.image = pygame.image.load("sprite/rfvf/25.png")
+        self.image = [pygame.image.load("sprite/rfvf/25.png")]

@@ -40,7 +40,7 @@ class Game:
         # self.enemy_units = [Unit(6, 6, 8, 1, 'enemy'),
         #                     Unit(7, 6, 8, 1, 'enemy')]
 
-        self.player_units = [Pokemon(Pikachu(),'player', 0, 0)]
+        self.player_units = [Pokemon(Salameche(),'player', 0, 0)]
         self.enemy_units = [Pokemon(Carapuce(), 'enemy', 6, 6)]
 
     def handle_player_turn(self):
@@ -50,7 +50,7 @@ class Game:
             # Tant que l'unité n'a pas terminé son tour
             has_acted = False
             selected_unit.is_selected = True
-            self.flip_display()
+            self.flip_display(selected_unit.image[0])
             while not has_acted:
 
                 # Important: cette boucle permet de gérer les événements Pygame
@@ -68,15 +68,19 @@ class Game:
                         dx, dy = 0, 0
                         if event.key == pygame.K_LEFT:
                             dx = -1
+                            img = 0
                         elif event.key == pygame.K_RIGHT:
                             dx = 1
+                            img = 0
                         elif event.key == pygame.K_UP:
                             dy = -1
+                            img = 0
                         elif event.key == pygame.K_DOWN:
                             dy = 1
+                            img = 1
 
                         selected_unit.move(dx, dy)
-                        self.flip_display()
+                        self.flip_display(selected_unit.image[img])
 
                         # Attaque (touche espace) met fin au tour
                         if event.key == pygame.K_SPACE:
@@ -105,7 +109,7 @@ class Game:
                 if target.pv <= 0:
                     self.player_units.remove(target)
 
-    def flip_display(self):
+    def flip_display(self, image):
         """Affiche le jeu."""
 
         # Affiche la grille
@@ -118,7 +122,10 @@ class Game:
         # Affiche les unités
         for unit in self.player_units + self.enemy_units:
             # unit.draw(self.screen)
-            self.screen.blit(unit.image, (unit.x*CELL_SIZE, unit.y*CELL_SIZE))
+            if image in unit.image:
+                self.screen.blit(image, (unit.x*CELL_SIZE, unit.y*CELL_SIZE))
+            else:
+                self.screen.blit(unit.image[0], (unit.x*CELL_SIZE, unit.y*CELL_SIZE))
 
         # Rafraîchit l'écran
         pygame.display.flip()
