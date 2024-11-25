@@ -226,3 +226,14 @@ class Bulbizarre:
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/1.png").convert()
+        
+class Pikachu:
+    
+    def __init__(self):
+        self.nom = "Pikachu"
+        self.stats = [35,55,30,50,40,90]
+        self.type = ["electrik"]
+        self.faiblesse = ["sol"]
+        self.capacites = [Capacite("Éclair", "electrik", 40, 100, 2, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
+        self.niveau = 1
+        self.image = pygame.image.load("sprite/rfvf/25.png")
