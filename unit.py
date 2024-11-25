@@ -95,12 +95,12 @@ class Pokemon:
     ses capacités et son niveau
     """
 
-    def __init__(self, pokemon, team):
+    def __init__(self, pokemon, team, x, y):
         self.pokemon = pokemon
-        self. team = team
-        self.x = 0
-        self.y = 0
-        self.nom = self.pokemon.nom
+        self.team = team
+        self.x = x
+        self.y = y
+        self.nom = pokemon.nom
         self.pv = self.pokemon.stats[0]
         self.attaque = self.pokemon.stats[1]
         self.defense = self.pokemon.stats[2]
@@ -108,10 +108,11 @@ class Pokemon:
         self.def_spe = self.pokemon.stats[4]
         self.vitesse = self.pokemon.stats[5]
         self.type = self.pokemon.type
-        self.faiblesse = self.pokemon.faiblesses
+        self.faiblesse = self.pokemon.faiblesse
         self.capacites = self.pokemon.capacites
         self.niveau = self.pokemon.niveau
         self.is_selected = False
+        self.image = pokemon.image
 
     def move(self, dx, dy):
         """Déplace l'unité de dx, dy."""
@@ -123,10 +124,9 @@ class Pokemon:
         """Affiche l'unité sur l'écran."""
         color = BLUE if self.team == 'player' else RED
         if self.is_selected:
-            pygame.draw.rect(screen, GREEN, (self.x * CELL_SIZE,
+            pygame.draw.rect(screen, color, (self.x * CELL_SIZE,
                              self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-        pygame.draw.circle(screen, color, (self.x * CELL_SIZE + CELL_SIZE //
-                           2, self.y * CELL_SIZE + CELL_SIZE // 2), CELL_SIZE // 3)
+            screen.blit(self.image, (self.x*CELL_SIZE,self.y*CELL_SIZE))
 
     def attaquer(self, capacite, adversaire):
         """fonction qui calcule les points de vie de l'adversaire touché par l'attaque
@@ -142,12 +142,12 @@ class Pokemon:
             cm *= 1
         else :
             cm *= 0
-        for types in adversaire.faiblesses:
-            if capacite.Type == types:
+        for types in adversaire.faiblesse:
+            if capacite.type == types:
                 eff *= 2
-        if capacite.Type == adversaire.type:
+        if capacite.type == adversaire.type:
             eff *= 1/2
-        if capacite.Type == self.type:
+        if capacite.type == self.type:
             stab *= 1.5
         cm *= eff*stab
         adversaire.pv -= ((((self.niveau*0.4+2)*capacite.puissance*self.attaque)/adversaire.defense)/50 + 2)*cm
@@ -201,6 +201,7 @@ class Salameche:
         self.faiblesse = ["eau", "sol", "roche"]
         self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
         self.niveau = 1
+        self.image = pygame.image.load("sprite/rfvf/4.png").convert_alpha()
 
 class Carapuce:
     """Construit la classe du pokémon Carapuce avec ses statistiques, force, faiblesse et capacité
@@ -212,6 +213,7 @@ class Carapuce:
         self.faiblesse = ["plante", "electrik"]
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Mimi-Queue", "normal", 2/3, 100, 1, 1, "non-attaque", "defense")]
         self.niveau = 1
+        self.image = pygame.image.load("sprite/rfvf/7.png").convert_alpha()
 
 class Bulbizarre:
     """Construit la classe du pokémon Bulbizarre avec ses statistiques, force, faiblesse et capacité
@@ -223,3 +225,4 @@ class Bulbizarre:
         self.faiblesse = ["feu", "glace", "vol", "psy"]
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
         self.niveau = 1
+        self.image = pygame.image.load("sprite/rfvf/1.png").convert()
