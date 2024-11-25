@@ -38,7 +38,7 @@ class Game:
         #                     Unit(7, 6, 8, 1, 'enemy')]
         
         self.player_units = [Pokemon(Salameche(),'player', 0, 0)]
-        self.enemy_units = [Pokemon(Carapuce(), 'enemy', 0, 0)]
+        self.enemy_units = [Pokemon(Carapuce(), 'enemy', 6, 6)]
 
     def handle_player_turn(self):
         """Tour du joueur"""
