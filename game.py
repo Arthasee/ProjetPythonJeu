@@ -31,6 +31,9 @@ class Game:
             La surface de la fenêtre du jeu.
         """
         self.screen = screen
+        pygame.mixer.init()
+        musique = pygame.mixer.music.load("music/1-03. Title Screen.mp3")
+        pygame.mixer.music.play()
         # self.player_units = [Unit(0, 0, 10, 2, 'player'),
         #                      Unit(1, 0, 10, 2, 'player')]
 
