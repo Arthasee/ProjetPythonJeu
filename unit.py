@@ -201,7 +201,7 @@ class Salameche:
         self.faiblesse = ["eau", "sol", "roche"]
         self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
         self.niveau = 1
-        self.image = pygame.image.load("sprite/rfvf/4.png").convert_alpha()
+        self.image = pygame.image.load("sprite/rfvf/4.png")
         # self.walk = [pygame.image.load("sprite/rfvf/walk/o_hs_004_1.png").convert_alpha(), ]
 
 class Carapuce:
@@ -214,7 +214,7 @@ class Carapuce:
         self.faiblesse = ["plante", "electrik"]
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Mimi-Queue", "normal", 2/3, 100, 1, 1, "non-attaque", "defense")]
         self.niveau = 1
-        self.image = pygame.image.load("sprite/rfvf/7.png").convert_alpha()
+        self.image = pygame.image.load("sprite/rfvf/7.png")
 
 class Bulbizarre:
     """Construit la classe du pokémon Bulbizarre avec ses statistiques, force, faiblesse et capacité
@@ -226,7 +226,7 @@ class Bulbizarre:
         self.faiblesse = ["feu", "glace", "vol", "psy"]
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
         self.niveau = 1
-        self.image = pygame.image.load("sprite/rfvf/1.png").convert_alpha()
+        self.image = pygame.image.load("sprite/rfvf/1.png")
         
 class Pikachu:
     """Construit la classe du pokémon Pikachu avec ses statistiques, force, faiblesse et capacité
@@ -239,3 +239,39 @@ class Pikachu:
         self.capacites = [Capacite("Éclair", "electrik", 40, 100, 2, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/25.png")
+        
+class Caninos:
+    """Construit la classe du pokémon Caninos avec ses statistiques, force, faiblesse et capacité
+    """
+    def __init__(self):
+        self.nom = "Caninos"
+        self.stats = [55,70,45,70,50,60]
+        self.type = ["feu"]
+        self.faiblesse = ["eau", "sol", "roche"]
+        self.capacites = [Capacite("Morsure", "normal", 60, 100, 1, 1, "attaque", None)]
+        self.niveau = 1
+        self.image = pygame.image.load("sprite/rfvf/58.png")
+        
+class Evoli:
+    """Construit la classe du pokémon Evoli avec ses statistiques, force, faiblesse et capacité
+    """
+    def __init__(self):
+        self.nom = "Évoli"
+        self.stats = [55, 55, 50, 45, 65, 55]
+        self.type = ["normal"]
+        self.faiblesse = ["combat"]
+        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
+        self.niveau = 1
+        self.image = pygame.image.load("sprite/rfvf/133.png")
+
+class Mewtwo:
+    """Construit la classe du pokémon Mewtwo avec ses statistiques, force, faiblesse et capacité
+    """
+    def __init__(self):
+        self.nom = "Mewtwo"
+        self.stats = [106, 110, 90, 154, 90, 130]
+        self.type = ["psy"]
+        self.faiblesse = ["insecte", "spectre", "tenebre"]
+        self.capacites = [Capacite("Choc Mental", "psy", 50, 100, 1, 1, "attaque", None), Capacite("Météores", "normal", 60, 100, 1, 1, "attaque", None)]
+        self.niveau = 1
+        self.image = pygame.image.load("sprite/rfvf/150.png")
