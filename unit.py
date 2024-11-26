@@ -273,5 +273,5 @@ class Mewtwo:
         self.type = ["psy"]
         self.faiblesse = ["insecte", "spectre", "tenebre"]
         self.capacites = [Capacite("Choc Mental", "psy", 50, 100, 1, 1, "attaque", None), Capacite("Météores", "normal", 60, 100, 1, 1, "attaque", None)]
-        self.niveau = 1
+        self.niveau = 50
         self.image = pygame.image.load("sprite/rfvf/150.png")
