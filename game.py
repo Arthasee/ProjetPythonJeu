@@ -2,6 +2,8 @@
     """
 import random
 import pygame
+from maps import Map 
+from screen import Screen 
 
 from unit import *
 
@@ -31,6 +33,8 @@ class Game:
             La surface de la fenêtre du jeu.
         """
         self.screen = screen
+        # Instanciation de la carte
+        self.maps = Map(self.screen)
         pygame.mixer.init()
         pygame.mixer.music.load("music/1-03. Title Screen.mp3")
         pygame.mixer.music.play()
@@ -42,6 +46,7 @@ class Game:
 
         self.player_units = [Pokemon(Salameche(),'player', 0, 0)]
         self.enemy_units = [Pokemon(Carapuce(), 'enemy', 6, 6)]
+     
 
     def handle_player_turn(self):
         """Tour du joueur"""
@@ -118,6 +123,10 @@ class Game:
             for y in range(0, HEIGHT, CELL_SIZE):
                 rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
                 pygame.draw.rect(self.screen, WHITE, rect, 1)
+        """Affiche le jeu."""
+         
+        # Affiche la carte
+        self.maps.update()
 
         # Affiche les unités
         for unit in self.player_units + self.enemy_units:
@@ -126,9 +135,14 @@ class Game:
                 self.screen.blit(image, (unit.x*CELL_SIZE, unit.y*CELL_SIZE))
             else:
                 self.screen.blit(unit.image[0], (unit.x*CELL_SIZE, unit.y*CELL_SIZE))
-
+        
         # Rafraîchit l'écran
         pygame.display.flip()
+     
+        def flip_display(self, image):
+         """Affiche le jeu."""
+         # Affiche la carte
+         self.maps.update()
 
 
 def main():
@@ -147,7 +161,9 @@ def main():
 
     # Boucle principale du jeu
     while True:
+        game.flip_display(None)  # Affiche la carte et les unités
         game.handle_player_turn()
+        game.flip_display(None)  # Affiche la carte et les unités
         game.handle_enemy_turn()
 
 
