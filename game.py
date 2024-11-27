@@ -169,11 +169,11 @@ class Game:
             while self.enemy_action_points > 0:
                 if abs(enemy.x - target.x) <= 1 and abs(enemy.y - target.y) <= 1:
                     # Attaque si à portée
-                    enemy.attack(target)
+                    enemy.attaquer(enemy.capacites[0],target)
                     self.enemy_action_points -= 1
 
                     # Vérifier si le joueur est éliminé
-                    if target.health <= 0:
+                    if target.pv <= 0:
                         print("Le joueur a été vaincu")
                         pygame.quit()
                         exit()
