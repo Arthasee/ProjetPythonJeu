@@ -2,19 +2,7 @@
     """
 import random
 import pygame
-
-# Constantes
-GRID_SIZE = 26
-CELL_SIZE = 30
-WIDTH = 768
-HEIGHT = 640
-FPS = 30
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
-
+from constante import *
 
 class Unit:
     """
@@ -72,7 +60,7 @@ class Unit:
 
     def move(self, dx, dy):
         """Déplace l'unité de dx, dy."""
-        if 0 <= self.x + dx < GRID_SIZE and 0 <= self.y + dy < GRID_SIZE:
+        if 0 <= self.x + dx < GRID_WIDTH and 0 <= self.y + dy < GRID_HEIGHT:
             self.x += dx
             self.y += dy
 
@@ -113,10 +101,11 @@ class Pokemon:
         self.niveau = self.pokemon.niveau
         self.is_selected = False
         self.image = pokemon.image
+        self.image = pygame.transform.scale(self.image, (CELL_SIZE, CELL_SIZE)) # Redimensionner les sprites
 
     def move(self, dx, dy):
         """Déplace l'unité de dx, dy."""
-        if 0 <= self.x + dx < GRID_SIZE and 0 <= self.y + dy < GRID_SIZE:
+        if 0 <= self.x + dx < GRID_WIDTH and 0 <= self.y + dy < GRID_HEIGHT:
             self.x += dx
             self.y += dy
 
@@ -124,9 +113,8 @@ class Pokemon:
         """Affiche l'unité sur l'écran."""
         # color = BLUE if self.team == 'player' else RED
         if self.is_selected:
-            # pygame.draw.rect(screen, color, (self.x * CELL_SIZE,
-            #                  self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-            screen.blit(self.image, (self.x*CELL_SIZE,self.y*CELL_SIZE))
+            pygame.draw.rect(screen, GREEN, (self.x * CELL_SIZE,self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE),2)
+        screen.blit(self.image, (self.x*CELL_SIZE,self.y*CELL_SIZE))
 
     def attaquer(self, capacite, adversaire):
         """fonction qui calcule les points de vie de l'adversaire touché par l'attaque

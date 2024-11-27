@@ -1,6 +1,7 @@
 import pygame
 import pytmx
 import pyscroll
+from constante import *
 
 class Map:
     def __init__(self, screen):
@@ -29,15 +30,21 @@ class Map:
         # Crée un objet TiledMapData à partir des données TMX
         map_data = pyscroll.data.TiledMapData(self.tmx_data)
 
-        # Utilise le renderer BufferedRenderer pour dessiner la carte
-        self.map_layer = pyscroll.BufferedRenderer(map_data, self.screen.get_size())
+        # Facteur de zoom (Mise à l'échelle grille Abithan)
+        tile_width = self.tmx_data.tilewidth
+        tile_height = self.tmx_data.tileheight
+        zoom = CELL_SIZE / tile_width
 
+        # Utilise le renderer BufferedRenderer pour dessiner la carte
+        self.map_layer = pyscroll.BufferedRenderer(map_data, self.screen.get_size(), clamp_camera=True)
+        self.map_layer.zoom = zoom
         # Crée un groupe Pyscroll pour gérer l'affichage de la carte et autres objets
         # default_layer=7 signifie que nous avons défini le calque de base à 7, vous pouvez ajuster en fonction des besoins
         self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=10)
 
     def update(self):
         """Met à jour l'affichage de la carte."""
+        #print("Dessin de la carte (calques et objets)")
         # Dessine la carte sur l'écran avec les informations du groupe (les éléments du groupe sont affichés ici)
         self.group.draw(self.screen)  # Utilise self.screen qui est déjà une surface Pygame
 
