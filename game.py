@@ -48,20 +48,40 @@ class Game:
         #                     Unit(7, 6, 8, 1, 'enemy')]
 
         self.player_units = [Pokemon(Salameche(),'player', 0, 0)]
-        self.enemy_units = [Pokemon(Carapuce(), 'enemy', 47, 39)]        
+        self.enemy_units = [Pokemon(Carapuce(), 'enemy', 8, 7)]        
 
-    def get_accessible_positions(self, unit, max_distance): # Permet d'obtenir les positions accessibles par le joueur où l'IA à partir de la position actuelle.
+     
+    
+    def check_collision(self, grid_x, grid_y):
+        """Vérifie si une case de la grille entre en collision avec un obstacle."""
+        pixel_x = grid_x * CELL_SIZE
+        pixel_y = grid_y * CELL_SIZE
+        future_rect = pygame.Rect(pixel_x, pixel_y, CELL_SIZE, CELL_SIZE)
+
+        for rect in self.maps.collisions:
+            if future_rect.colliderect(rect):
+                print(f"Collision détectée avec {rect}")  # Debugging
+                return True
+        return False
+    
+    def get_accessible_positions(self, unit, max_distance):
         accessible_positions = []
         start_x, start_y = unit.x, unit.y
 
         for dx in range(-max_distance, max_distance + 1):
             for dy in range(-max_distance, max_distance + 1):
                 if abs(dx) + abs(dy) <= max_distance:
-                    new_x, new_y = start_x + dx, start_y + dy
-                    if 0 <= new_x < GRID_WIDTH and 0 <= new_y < GRID_HEIGHT:  # S'assurer que les positions sont dans la grille
-                        accessible_positions.append((new_x, new_y))
+                    new_x = start_x + dx
+                    new_y = start_y + dy
+                    if 0 <= new_x < GRID_WIDTH and 0 <= new_y < GRID_HEIGHT:  # Vérifie les limites
+                        if not self.check_collision(new_x, new_y):  # Vérifie les collisions
+                            accessible_positions.append((new_x, new_y))
 
+        print(f"Positions accessibles : {accessible_positions}")  # Debugging
         return accessible_positions
+
+
+
     
     def highlight_positions(self, positions, color, alpha=178): # Permet la coloration des cases de potentiels déplacements lors du tour
         # Créer une surface avec transparence
@@ -114,21 +134,27 @@ class Game:
 
                         # Si une unité est déjà sélectionnée, vérifier le déplacement
                         elif selected_unit and (grid_x, grid_y) in accessible_positions:
-                            # Calculer la distance parcourue à partir de la position initiale
-                            distance_from_initial = abs(grid_x - initial_position[0]) + abs(grid_y - initial_position[1])
+                            if not self.check_collision(grid_x, grid_y):  # Pas de multiplication par CELL_SIZE ici
 
-                            # Vérifier si le joueur a suffisamment de PA pour effectuer ce déplacement
-                            if distance_from_initial <= 10:
-                                # Mettre à jour la position de l'unité
-                                selected_unit.x = grid_x
-                                selected_unit.y = grid_y
+                                # Calculer la distance parcourue à partir de la position initiale
+                                distance_from_initial = abs(grid_x - initial_position[0]) + abs(grid_y - initial_position[1])
 
-                                # Mettre à jour les points d'action en fonction de la distance parcourue depuis la position initiale
-                                self.player_action_points = 10 - distance_from_initial
+                                # Vérifier si le joueur a suffisamment de PA pour effectuer ce déplacement
+                                if distance_from_initial <= 10:
+                                    # Mettre à jour la position de l'unité
+                                    selected_unit.x = grid_x
+                                    selected_unit.y = grid_y
 
-                                # Rafraîchir l'affichage après déplacement
-                                self.flip_display(highlight_positions=accessible_positions, highlight_color=(135, 206, 235))
-                                pygame.display.flip()
+                                    # Mettre à jour les points d'action en fonction de la distance parcourue depuis la position initiale
+                                    self.player_action_points = 10 - distance_from_initial
+
+                                    # Rafraîchir l'affichage après déplacement
+                                    self.flip_display(highlight_positions=accessible_positions, highlight_color=(135, 206, 235))
+                                    pygame.display.flip()
+                                else :
+                                    print(f"Pas assez de PA pour se déplacer vers ({grid_x}, {grid_y})")
+                            else:
+                                    print("Déplacement bloqué par une collision !")
 
                     # Vérifier si on a cliqué sur le bouton de fin du tour
                     if event.button == 1 and self.end_turn_button_rect.collidepoint(event.pos):
