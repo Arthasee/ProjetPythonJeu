@@ -116,7 +116,7 @@ class Salameche:
         self.faiblesse = ["eau", "sol", "roche"]
         self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
         self.niveau = 1
-        self.image = pygame.image.load("sprite/rfvf/4.png")
+        self.image = pygame.image.load("sprite/rfvf/salameche.gif") #sprite/rfvf/4.png
         # self.walk = [pygame.image.load("sprite/rfvf/walk/o_hs_004_1.png").convert_alpha(), ]
 
 class Carapuce:

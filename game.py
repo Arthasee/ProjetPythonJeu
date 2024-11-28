@@ -47,7 +47,7 @@ class Game:
         # self.enemy_units = [Unit(6, 6, 8, 1, 'enemy'),
         #                     Unit(7, 6, 8, 1, 'enemy')]
 
-        self.player_units = [Pokemon(Bulbizarre(),'player', 0, 0)]
+        self.player_units = [Pokemon(Salameche(),'player', 0, 0)]
         self.enemy_units = [Pokemon(Carapuce(), 'enemy', 47, 39)]        
 
     def get_accessible_positions(self, unit, max_distance): # Permet d'obtenir les positions accessibles par le joueur où l'IA à partir de la position actuelle.
