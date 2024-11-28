@@ -11,6 +11,9 @@ class Map:
         self.map_layer = None  # Calque de la carte
         self.group = None  # Groupe de rendu pour la carte
         self.switch_map("map")  # Charge la carte par défaut
+        # Initialisation des collisions
+        self.collisions = []
+        self._load_collisions()
 
     def switch_map(self, map: str):
         """
@@ -41,10 +44,30 @@ class Map:
         # Crée un groupe Pyscroll pour gérer l'affichage de la carte et autres objets
         # default_layer=7 signifie que nous avons défini le calque de base à 7, vous pouvez ajuster en fonction des besoins
         self.group = pyscroll.PyscrollGroup(map_layer=self.map_layer, default_layer=10)
+        
+    def _load_collisions(self):
+        """Charge les objets de collision depuis Tiled et les ajuste à la grille."""
+        self.collisions = []
+        for obj in self.tmx_data.objects:
+            if obj.type == "collision":
+                grid_x = int(obj.x // CELL_SIZE)
+                grid_y = int(obj.y // CELL_SIZE)
+                grid_width = int(obj.width // CELL_SIZE)
+                grid_height = int(obj.height // CELL_SIZE)
+                rect = pygame.Rect(grid_x * CELL_SIZE, grid_y * CELL_SIZE, grid_width * CELL_SIZE, grid_height * CELL_SIZE)
+                self.collisions.append(rect)
+                
+                print(f"Collision ajustée : {rect}")  # Debugging
 
+
+
+
+    
     def update(self):
-        """Met à jour l'affichage de la carte."""
-        #print("Dessin de la carte (calques et objets)")
-        # Dessine la carte sur l'écran avec les informations du groupe (les éléments du groupe sont affichés ici)
-        self.group.draw(self.screen)  # Utilise self.screen qui est déjà une surface Pygame
+        """Dessine la carte et les collisions (pour debug)."""
+        self.group.draw(self.screen)
+        
+         # Dessiner les zones de collision pour debug
+        for rect in self.collisions:
+            pygame.draw.rect(self.screen, (255, 0, 0), rect, 2)  # Rouge pour visualiser les collisions
 
