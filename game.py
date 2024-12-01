@@ -249,12 +249,18 @@ class Game:
         """Affiche le jeu."""
         # Dessiner l'arrière-plan (carte)
         self.maps.update()
+        
+        
+        # Crée une surface transparente
+        grid_surface = pygame.Surface((MAP_WIDTH, TOTAL_HEIGHT), pygame.SRCALPHA)
+        # Couleur avec transparence (RGBA) : blanc avec 50% d'opacité
+        TRANSPARENT_WHITE = (255, 255, 255, 128)
 
         # Affiche la grille in game
         for x in range(0, MAP_WIDTH, CELL_SIZE):
             for y in range(0, TOTAL_HEIGHT, CELL_SIZE):
                 rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
-                pygame.draw.rect(self.screen, WHITE, rect, 1)
+                pygame.draw.rect(grid_surface, TRANSPARENT_WHITE, rect, 1)
 
         # Surligner les positions accessibles si fournies
         if highlight_positions and highlight_color:
