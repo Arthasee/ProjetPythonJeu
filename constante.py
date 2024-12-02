@@ -1,7 +1,7 @@
 # Constantes
-GRID_WIDTH = 48
-GRID_HEIGHT = 40
-CELL_SIZE = 24
+GRID_WIDTH = 40
+GRID_HEIGHT = 32
+CELL_SIZE = 16
 TOTAL_HEIGHT = GRID_HEIGHT * CELL_SIZE #Permet avoir hauteur
 TOTAL_WIDTH = int(TOTAL_HEIGHT * 16/9) # Permet avoir largeur proportionnel au 16/9 format d'écran standard (bien que la carte soit en 48*40, permet d'intégrer ATH)
 MAP_WIDTH = GRID_WIDTH * CELL_SIZE
