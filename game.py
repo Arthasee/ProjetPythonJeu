@@ -3,12 +3,12 @@
 import random
 import pygame
 import pygame_menu
-import pygame_menu.baseimage
 from maps import Map 
 from screen import Screen 
 from unit import *
 
 surface = pygame.display.set_mode((0, 0))
+
 class Game:
     """
     Classe pour représenter le jeu.
@@ -43,8 +43,14 @@ class Game:
 
         self.current_turn = 'player' # Commence par le tour du joueur
 
-        self.player_units = player
-        self.enemy_units = ennemy        
+        # self.player_units = [Unit(0, 0, 10, 2, 'player'),
+        #                      Unit(1, 0, 10, 2, 'player')]
+
+        # self.enemy_units = [Unit(6, 6, 8, 1, 'enemy'),
+        #                     Unit(7, 6, 8, 1, 'enemy')]
+
+        self.player_units = [Pokemon(Salameche(),'player', 0, 0)]
+        self.enemy_units = [Pokemon(Carapuce(), 'enemy', 8, 7)]        
 
      
     
@@ -75,6 +81,9 @@ class Game:
 
         print(f"Positions accessibles : {accessible_positions}")  # Debugging
         return accessible_positions
+
+
+
     
     def highlight_positions(self, positions, color, alpha=178): # Permet la coloration des cases de potentiels déplacements lors du tour
         # Créer une surface avec transparence
@@ -184,6 +193,7 @@ class Game:
             accessible_positions = self.get_accessible_positions(enemy, MAX_DISTANCE)
             self.flip_display(highlight_positions=accessible_positions, highlight_color=(255,182,193))            
             original_position = (enemy.x, enemy.y)
+            accessible_positions = []  # Pour garder la zone de déplacement fixe
 
             while self.enemy_action_points > 0:
                 if abs(enemy.x - target.x) <= 1 and abs(enemy.y - target.y) <= 1:
@@ -214,22 +224,48 @@ class Game:
                 new_y = enemy.y + dy
                 total_distance = abs(new_x - original_position[0]) + abs(new_y - original_position[1])
 
-                if total_distance <= MAX_DISTANCE: # Permet de respecter le nombre de case limite de déplacement
-                    if dx != 0 and dy != 0 :
-                        if random.choice([True, False]):
-                            dy = 0
-                        else :
-                            dx = 0
-                    previous_position = (enemy.x, enemy.y)
-                    enemy.move(dx, dy)
+                if total_distance <= MAX_DISTANCE:  # Vérifie si la distance parcourue est dans la limite du déplacement maximal
+                    if not self.check_collision(new_x, new_y):  # Vérifie qu'il n'y a pas d'obstacle à la nouvelle position
+                        if dx != 0 and dy != 0:  # Si le déplacement est à la fois horizontal et vertical (diagonal)
+                            # Randomiser pour choisir un axe de déplacement (soit horizontal, soit vertical)
+                            if random.choice([True, False]):
+                                dy = 0  # Annule le déplacement vertical
+                            else:
+                                dx = 0  # Annule le déplacement horizontal
+        
+                    # Mémoriser la position avant le déplacement
+                        previous_position = (enemy.x, enemy.y)
+                        enemy.move(dx, dy)  # Déplace l'ennemi dans la direction choisie
 
-                    if (enemy.x, enemy.y) != previous_position:
-                        self.enemy_action_points -= 1
+                    # Si la position a changé, on réduit les points d'action de l'ennemi
+                        if (enemy.x, enemy.y) != previous_position:
+                            self.enemy_action_points -= 1
 
-                    self.flip_display(highlight_positions=accessible_positions, highlight_color=(255,182,193))
-                    self.clock.tick(5) # Vitesse raisonnable pour voir l'IA jouer
-                else :
-                    break
+                    # Mettre à jour l'affichage avec la nouvelle position de l'ennemi
+                        self.flip_display(highlight_positions=accessible_positions, highlight_color=(255, 182, 193))
+                        self.clock.tick(5)  # Limite la vitesse du tour de l'IA pour permettre de visualiser l'action
+                    else:
+                        # Si une collision est détectée, essayer une autre direction
+                        print(f"Collision détectée à ({new_x}, {new_y}), tentative d'un autre déplacement.")
+                        # Tu peux essayer de déplacer l'ennemi dans d'autres directions ici, par exemple :
+                        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Haut, bas, gauche, droite
+                        for direction in directions:
+                                dx, dy = direction
+                                new_x = enemy.x + dx
+                                new_y = enemy.y + dy
+                                if not self.check_collision(new_x, new_y):  # Vérifie qu'il n'y a pas d'obstacle
+                                    enemy.move(dx, dy)  # Déplace l'ennemi dans la direction valide
+                                    self.enemy_action_points -= 1  # Réduit les points d'action
+                                    print(f"Déplacement effectué vers ({new_x}, {new_y})")
+                                    break  # Si un déplacement valide a été effectué, on sort de la boucle
+                                else:
+                                    print("L'ennemi est bloqué, aucun déplacement possible.")
+                else:
+                    # Si la distance dépasse la portée maximale, on arrête le déplacement
+                    print(f"Déplacement trop loin. Distance totale : {total_distance}")
+                    break  # Sort de la boucle si la distance dépasse la limite
+
+
 
             # Attaque si possible
             if abs(enemy.x - target.x) <= 1 and abs(enemy.y - target.y) <= 1:
@@ -310,6 +346,7 @@ class Game:
 
             # Limiter la boucle à 30 FPS
             self.clock.tick(30)
+
         
 
 def main():
