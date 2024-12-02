@@ -322,7 +322,7 @@ def main():
     screen = pygame.display.set_mode((TOTAL_WIDTH, TOTAL_HEIGHT))
     pygame.display.set_caption("PokeBattle")
     menu = pygame_menu.Menu('Welcome', TOTAL_WIDTH, TOTAL_HEIGHT,
-                        theme=pygame_menu.themes.THEME_BLUE, position=(50,50,True))
+                        theme=pygame_menu.themes.THEME_BLUE, position=(50,50))
     # Instanciation du jeu
     player_team = []
     player_team.append(Pokemon(Carapuce(),'player', 0, 0))
@@ -333,7 +333,8 @@ def main():
     menu.add.image("sprite/rfvf/7.png", scale=(1,1))
     menu.add.image("sprite/rfvf/25.png", scale=(1,1))
     menu.add.image("sprite/rfvf/133.png", scale=(1,1))
-    
+    enemy_choice = [Pokemon(Salameche(), 'player', 8, 7),Pokemon(Carapuce(),'player', 8, 7),Pokemon(Pikachu(),'player', 8, 7),Pokemon(Evoli(),'player', 8, 7)]
+    choix = random.randint(0,3)
     menu.mainloop(surface)
     if selecteur.get_index() == 0:
         player_team[0] = Pokemon(Salameche(), 'player', 0, 0)
@@ -343,7 +344,7 @@ def main():
         player_team[0] = Pokemon(Pikachu(),'player', 0, 0)
     if selecteur.get_index() == 3:
         player_team[0] = Pokemon(Evoli(),'player', 0, 0)
-    game = Game(screen, player_team,[Pokemon(Carapuce(), 'enemy', 8, 7)])
+    game = Game(screen, player_team,[enemy_choice[choix]])
     # Boucle principale du jeu
     while True:
         game.handle_player_turn()
