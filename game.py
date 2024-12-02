@@ -329,6 +329,7 @@ def main():
     selecteur = menu.add.selector('Difficulty :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4)])
     menu.add.button('Play', menu.disable)
     menu.add.button('Quit', pygame_menu.events.EXIT)
+    image_poke = menu.add.image("sprite/rfvf/6.png", scale=(1,1))
     if selecteur.get_index() == 0:
         menu.add.image("sprite/rfvf/4.png", scale=(1,1))
     if selecteur.get_index() == 1:
