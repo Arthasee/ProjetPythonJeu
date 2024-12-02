@@ -2,11 +2,12 @@
     """
 import random
 import pygame
+import pygame_menu
 from maps import Map 
 from screen import Screen 
 from unit import *
 
-
+surface = pygame.display.set_mode((600, 400))
 class Game:
     """
     Classe pour représenter le jeu.
@@ -22,7 +23,7 @@ class Game:
         La liste des unités de l'adversaire.
     """
 
-    def __init__(self, screen):
+    def __init__(self, screen, player, ennemy):
         """
         Construit le jeu avec la surface de la fenêtre.
 
@@ -41,14 +42,8 @@ class Game:
 
         self.current_turn = 'player' # Commence par le tour du joueur
 
-        # self.player_units = [Unit(0, 0, 10, 2, 'player'),
-        #                      Unit(1, 0, 10, 2, 'player')]
-
-        # self.enemy_units = [Unit(6, 6, 8, 1, 'enemy'),
-        #                     Unit(7, 6, 8, 1, 'enemy')]
-
-        self.player_units = [Pokemon(Salameche(),'player', 0, 0)]
-        self.enemy_units = [Pokemon(Carapuce(), 'enemy', 8, 7)]        
+        self.player_units = player
+        self.enemy_units = ennemy        
 
      
     
@@ -79,9 +74,6 @@ class Game:
 
         print(f"Positions accessibles : {accessible_positions}")  # Debugging
         return accessible_positions
-
-
-
     
     def highlight_positions(self, positions, color, alpha=178): # Permet la coloration des cases de potentiels déplacements lors du tour
         # Créer une surface avec transparence
@@ -317,7 +309,7 @@ class Game:
 
             # Limiter la boucle à 30 FPS
             self.clock.tick(30)
-
+        
 
 def main():
     """Fonction principal
@@ -327,11 +319,34 @@ def main():
 
     # Instanciation de la fenêtre
     screen = pygame.display.set_mode((TOTAL_WIDTH, TOTAL_HEIGHT))
-    pygame.display.set_caption("Mon jeu de stratégie")
-
+    pygame.display.set_caption("PokeBattle")
+    menu = pygame_menu.Menu('Welcome', TOTAL_WIDTH, TOTAL_HEIGHT,
+                        theme=pygame_menu.themes.THEME_BLUE, position=(50,50,True))
     # Instanciation du jeu
-    game = Game(screen)
-
+    player_team = []
+    player_team.append(Pokemon(Carapuce(),'player', 0, 0))
+    menu.add.text_input('Name :', default='John Doe')
+    selecteur = menu.add.selector('Difficulty :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4)])
+    menu.add.button('Play', menu.disable)
+    menu.add.button('Quit', pygame_menu.events.EXIT)
+    if selecteur.get_index() == 0:
+        menu.add.image("sprite/rfvf/4.png", scale=(1,1))
+    if selecteur.get_index() == 1:
+        menu.add.image("sprite/rfvf/6.png", scale=(0.15,0.15))
+    if selecteur.get_index() == 2:
+        player_team[0] = Pokemon(Pikachu(),'player', 0, 0)
+    if selecteur.get_index() == 3:
+        player_team[0] = Pokemon(Evoli(),'player', 0, 0)
+    menu.mainloop(surface)
+    if selecteur.get_index() == 0:
+        player_team[0] = Pokemon(Salameche(), 'player', 0, 0)
+    if selecteur.get_index() == 1:
+        player_team[0] = Pokemon(Carapuce(),'player', 0, 0)
+    if selecteur.get_index() == 2:
+        player_team[0] = Pokemon(Pikachu(),'player', 0, 0)
+    if selecteur.get_index() == 3:
+        player_team[0] = Pokemon(Evoli(),'player', 0, 0)
+    game = Game(screen, player_team,[Pokemon(Carapuce(), 'enemy', 8, 7)])
     # Boucle principale du jeu
     while True:
         game.handle_player_turn()
