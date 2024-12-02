@@ -8,7 +8,7 @@ from maps import Map
 from screen import Screen 
 from unit import *
 
-surface = pygame.display.set_mode((600, 400))
+surface = pygame.display.set_mode((0, 0))
 class Game:
     """
     Classe pour représenter le jeu.
@@ -326,6 +326,9 @@ def main():
     # Instanciation du jeu
     player_team = []
     player_team.append(Pokemon(Carapuce(),'player', 0, 0))
+    enemy_choice = [Pokemon(Salameche(), 'player', 8, 7),Pokemon(Carapuce(),'player', 8, 7),Pokemon(Pikachu(),'player', 8, 7),Pokemon(Evoli(),'player', 8, 7)]
+    choix = random.randint(0,3)
+    
     selecteur = menu.add.selector('Pokémon :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4)])
     menu.add.button('Play', menu.disable)
     menu.add.button('Quit', pygame_menu.events.EXIT)
@@ -333,9 +336,8 @@ def main():
     menu.add.image("sprite/rfvf/7.png", scale=(1,1))
     menu.add.image("sprite/rfvf/25.png", scale=(1,1))
     menu.add.image("sprite/rfvf/133.png", scale=(1,1))
-    enemy_choice = [Pokemon(Salameche(), 'player', 8, 7),Pokemon(Carapuce(),'player', 8, 7),Pokemon(Pikachu(),'player', 8, 7),Pokemon(Evoli(),'player', 8, 7)]
-    choix = random.randint(0,3)
     menu.mainloop(surface)
+    
     if selecteur.get_index() == 0:
         player_team[0] = Pokemon(Salameche(), 'player', 0, 0)
     if selecteur.get_index() == 1:
