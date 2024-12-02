@@ -3,6 +3,7 @@
 import random
 import pygame
 import pygame_menu
+import pygame_menu.baseimage
 from maps import Map 
 from screen import Screen 
 from unit import *
@@ -325,19 +326,14 @@ def main():
     # Instanciation du jeu
     player_team = []
     player_team.append(Pokemon(Carapuce(),'player', 0, 0))
-    menu.add.text_input('Name :', default='John Doe')
-    selecteur = menu.add.selector('Difficulty :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4)])
+    selecteur = menu.add.selector('Pokémon :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4)])
     menu.add.button('Play', menu.disable)
     menu.add.button('Quit', pygame_menu.events.EXIT)
-    image_poke = menu.add.image("sprite/rfvf/6.png", scale=(1,1))
-    if selecteur.get_index() == 0:
-        menu.add.image("sprite/rfvf/4.png", scale=(1,1))
-    if selecteur.get_index() == 1:
-        menu.add.image("sprite/rfvf/6.png", scale=(0.15,0.15))
-    if selecteur.get_index() == 2:
-        player_team[0] = Pokemon(Pikachu(),'player', 0, 0)
-    if selecteur.get_index() == 3:
-        player_team[0] = Pokemon(Evoli(),'player', 0, 0)
+    menu.add.image("sprite/rfvf/4.png", scale=(1,1))
+    menu.add.image("sprite/rfvf/7.png", scale=(1,1))
+    menu.add.image("sprite/rfvf/25.png", scale=(1,1))
+    menu.add.image("sprite/rfvf/133.png", scale=(1,1))
+    
     menu.mainloop(surface)
     if selecteur.get_index() == 0:
         player_team[0] = Pokemon(Salameche(), 'player', 0, 0)
