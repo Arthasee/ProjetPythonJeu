@@ -4,18 +4,19 @@ import pyscroll
 from constante import *
 
 class Map:
-    def __init__(self, screen):
+    def __init__(self, screen, map):
         """Initialise la carte avec l'écran Pygame."""
         self.screen = screen  # L'écran sur lequel la carte sera dessinée
         self.tmx_data = None  # Données de la carte TMX
         self.map_layer = None  # Calque de la carte
         self.group = None  # Groupe de rendu pour la carte
-        self.switch_map("map")  # Charge la carte par défaut
+        self.map = map # la carte sélectionnée
+        self.switch_map()  # Charge la carte par défaut
         # Initialisation des collisions
         self.collisions = []
         self._load_collisions()
 
-    def switch_map(self, map: str):
+    def switch_map(self):
         """
         Charge une nouvelle carte TMX en fonction du nom de fichier donné.
 
@@ -28,7 +29,7 @@ class Map:
         
         
         # Charge les données TMX depuis un fichier (ici 'map_1.tmx')
-        self.tmx_data = pytmx.load_pygame("map_1.tmx")   
+        self.tmx_data = pytmx.load_pygame(self.map)   
 
         # Crée un objet TiledMapData à partir des données TMX
         map_data = pyscroll.data.TiledMapData(self.tmx_data)

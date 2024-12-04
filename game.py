@@ -24,7 +24,7 @@ class Game:
         La liste des unités de l'adversaire.
     """
 
-    def __init__(self, screen, player, ennemy):
+    def __init__(self, screen, player, ennemy, carte):
         """
         Construit le jeu avec la surface de la fenêtre.
 
@@ -36,7 +36,7 @@ class Game:
         self.screen = pygame.display.set_mode((MAP_WIDTH+ATH_WIDTH,TOTAL_HEIGHT)) # Taille écran
         self.clock = pygame.time.Clock() # Implémentation d'un tracker de temps
         # Instanciation de la carte
-        self.maps = Map(self.screen)
+        self.maps = Map(self.screen, carte)
         # pygame.mixer.init()
         # pygame.mixer.music.load("music/1-03. Title Screen.mp3")
         # pygame.mixer.music.play()
@@ -359,8 +359,10 @@ def main():
     player_team.append(Pokemon(Carapuce(),'player', 0, 0))
     enemy_choice = [Pokemon(Salameche(), 'player', 8, 7),Pokemon(Carapuce(),'player', 8, 7),Pokemon(Pikachu(),'player', 8, 7),Pokemon(Evoli(),'player', 8, 7)]
     choix = random.randint(0,3)
+    choix_map = ""
     
-    selecteur = menu.add.selector('Pokémon :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4)])
+    selecteur_poke = menu.add.selector('Pokémon :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4)])
+    selecteur_carte = menu.add.selector('Carte :', [('Ville', 1), ('Plage', 2), ('Grotte', 3)])
     menu.add.button('Play', menu.disable)
     menu.add.button('Quit', pygame_menu.events.EXIT)
     menu.add.image("sprite/rfvf/4.png", scale=(1,1))
@@ -369,15 +371,21 @@ def main():
     menu.add.image("sprite/rfvf/133.png", scale=(1,1))
     menu.mainloop(surface)
     
-    if selecteur.get_index() == 0:
+    if selecteur_poke.get_index() == 0:
         player_team[0] = Pokemon(Salameche(), 'player', 0, 0)
-    if selecteur.get_index() == 1:
+    if selecteur_poke.get_index() == 1:
         player_team[0] = Pokemon(Carapuce(),'player', 0, 0)
-    if selecteur.get_index() == 2:
+    if selecteur_poke.get_index() == 2:
         player_team[0] = Pokemon(Pikachu(),'player', 0, 0)
-    if selecteur.get_index() == 3:
+    if selecteur_poke.get_index() == 3:
         player_team[0] = Pokemon(Evoli(),'player', 0, 0)
-    game = Game(screen, player_team,[enemy_choice[choix]])
+    if selecteur_carte.get_index() == 0:
+        choix_map = "map_1.tmx"
+    if selecteur_carte.get_index() == 1:
+        choix_map = "map_2.tmx"
+    if selecteur_carte.get_index() == 2:
+        choix_map = "map_3.tmx"
+    game = Game(screen, player_team,[enemy_choice[choix]], choix_map)
     # Boucle principale du jeu
     while True:
         game.handle_player_turn()

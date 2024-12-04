@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="45">
- <tileset firstgid="1" source="../AMIR/Tileset/2.tsx"/>
+ <tileset firstgid="1" source="Tileset/2.tsx"/>
  <tileset firstgid="4257" source="Tileset/4g tileset_grotte2.tsx"/>
  <layer id="1" name="sol" width="32" height="24">
   <data encoding="csv">
