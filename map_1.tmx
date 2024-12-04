@@ -115,16 +115,16 @@
 </data>
  </layer>
  <objectgroup id="10" name="collision">
-  <object id="1" name="collision" type="collision" x="320" y="160" width="240.404" height="179.787"/>
+  <object id="1" name="collision" type="collision" x="320" y="160" width="240.404" height="193.787"/>
   <object id="2" name="collision" type="collision" x="640" y="352" width="129.787" height="170.213"/>
-  <object id="4" name="collision" type="collision" x="96" y="416" width="129.787" height="118.085"/>
-  <object id="5" name="collision" type="collision" x="224" y="416" width="129.787" height="128.085"/>
+  <object id="4" name="collision" type="collision" x="96" y="384.667" width="129.787" height="170.085"/>
+  <object id="5" name="collision" type="collision" x="224" y="384" width="129.787" height="163.752"/>
   <object id="6" name="collision" type="collision" x="288" y="384" width="65" height="26"/>
   <object id="7" name="collision" type="collision" x="608" y="160" width="66" height="67"/>
   <object id="9" name="collision" type="collision" x="96" y="224" width="66" height="67"/>
   <object id="11" name="collision" type="collision" x="480" y="608" width="66" height="67"/>
   <object id="12" name="collision" type="collision" x="64" y="0" width="835" height="65"/>
-  <object id="13" name="collision" type="collision" x="96" y="704" width="830" height="64"/>
+  <object id="13" name="collision" type="collision" x="96" y="704" width="840" height="64"/>
   <object id="14" name="collision" type="collision" x="0" y="96" width="64" height="608"/>
   <object id="15" name="collision" type="collision" x="960" y="32" width="67" height="672"/>
   <object id="16" name="collision" type="collision" x="448" y="416" width="97" height="128"/>
