@@ -58,8 +58,7 @@ class Map:
                 rect = pygame.Rect(grid_x * CELL_SIZE, grid_y * CELL_SIZE, grid_width * CELL_SIZE, grid_height * CELL_SIZE)
                 self.collisions.append(rect)
                 
-                print(f"Collision ajustée : {rect}")  # Debugging
-
+                 
 
 
 
@@ -69,6 +68,6 @@ class Map:
         self.group.draw(self.screen)
         
          # Dessiner les zones de collision pour debug
-        for rect in self.collisions:
-            pygame.draw.rect(self.screen, (255, 0, 0), rect, 2)  # Rouge pour visualiser les collisions
+        #for rect in self.collisions:
+            #pygame.draw.rect(self.screen, (255, 0, 0), rect, 2)  # Rouge pour visualiser les collisions
 
