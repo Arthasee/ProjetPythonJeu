@@ -357,13 +357,14 @@ def main():
     # Instanciation du jeu
     player_team = []
     player_team.append(Pokemon(Carapuce(),'player', 0, 0))
-    enemy_choice = [Pokemon(Salameche(), 'player', 8, 7),Pokemon(Carapuce(),'player', 8, 7),Pokemon(Pikachu(),'player', 8, 7),Pokemon(Evoli(),'player', 8, 7),Pokemon(Bulbizarre(),'player', 8, 7),
-                    Pokemon(Mewtwo(),'player', 8, 7), Pokemon(Caninos(),'player', 8, 7)]
+    enemy_choice = [Pokemon(Salameche(), 'player', 8, 7),Pokemon(Carapuce(),'player', 8, 7),Pokemon(Pikachu(),'player', 8, 7),Pokemon(Evoli(),'player', 8, 7)]
     choix = random.randint(0,3)
-    choix_map = ""
+    choix_map = " "
+    Niveau=" "
     
-    selecteur_poke = menu.add.selector('Pokémon :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4), ('Bulbizarre', 5), ('Mewtwo', 6), ('Caninos', 7)])
+    selecteur_poke = menu.add.selector('Pokémon :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4)])
     selecteur_carte = menu.add.selector('Carte :', [('Ville', 1), ('Plage', 2), ('Grotte', 3)])
+    selecteur_Niveau= menu.add.selector('Niveau : ',[('Facile', 1), ('Moyen', 2), ('Difficile', 3)])
     menu.add.button('Play', menu.disable)
     menu.add.button('Quit', pygame_menu.events.EXIT)
     menu.add.image("sprite/rfvf/4.png", scale=(1,1))
@@ -380,18 +381,25 @@ def main():
         player_team[0] = Pokemon(Pikachu(),'player', 0, 0)
     if selecteur_poke.get_index() == 3:
         player_team[0] = Pokemon(Evoli(),'player', 0, 0)
-    if selecteur_poke.get_index() == 4:
-        player_team[0] = Pokemon(Bulbizarre(),'player', 0, 0)
-    if selecteur_poke.get_index() == 5:
-        player_team[0] = Pokemon(Mewtwo(),'player', 0, 0)
-    if selecteur_poke.get_index() == 6:
-        player_team[0] = Pokemon(Caninos(),'player', 0, 0)
+    
+    
     if selecteur_carte.get_index() == 0:
         choix_map = "map_1.tmx"
     if selecteur_carte.get_index() == 1:
         choix_map = "map_2.tmx"
     if selecteur_carte.get_index() == 2:
         choix_map = "map_3.tmx"
+
+    if selecteur_Niveau.get_index() == 0:
+        Niveau = "facile"
+    if selecteur_Niveau.get_index() == 1:
+        Niveau = "moyen"
+    if selecteur_Niveau.get_index() == 2:
+        Niveau = "difficile"
+
+
+
+
     game = Game(screen, player_team,[enemy_choice[choix]], choix_map)
     # Boucle principale du jeu
     while True:
