@@ -357,20 +357,23 @@ def main():
     # Instanciation du jeu
     player_team = []
     player_team.append(Pokemon(Carapuce(),'player', 0, 0))
-    enemy_choice = [Pokemon(Salameche(), 'player', 8, 7),Pokemon(Carapuce(),'player', 8, 7),Pokemon(Pikachu(),'player', 8, 7),Pokemon(Evoli(),'player', 8, 7)]
+    enemy_choice = [Pokemon(Salameche(), 'ennemy', 8, 7),Pokemon(Carapuce(),'ennemy', 8, 7),Pokemon(Pikachu(),'ennemy', 8, 7),Pokemon(Evoli(),'ennemy', 8, 7),Pokemon(Caninos(),'ennemy', 8, 7),Pokemon(Bulbizarre(),'ennemy', 8, 7)]
     choix = random.randint(0,3)
     choix_map = " "
     Niveau=" "
     
-    selecteur_poke = menu.add.selector('Pokémon :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4)])
+    selecteur_poke = menu.add.selector('Pokémon :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4), ('Bulbizarre',5), ('Caninos', 6), ('Mewtwo', 7)])
     selecteur_carte = menu.add.selector('Carte :', [('Ville', 1), ('Plage', 2), ('Grotte', 3)])
     selecteur_Niveau= menu.add.selector('Niveau : ',[('Facile', 1), ('Moyen', 2), ('Difficile', 3)])
     menu.add.button('Play', menu.disable)
     menu.add.button('Quit', pygame_menu.events.EXIT)
-    menu.add.image("sprite/rfvf/4.png", scale=(1,1))
-    menu.add.image("sprite/rfvf/7.png", scale=(1,1))
-    menu.add.image("sprite/rfvf/25.png", scale=(1,1))
-    menu.add.image("sprite/rfvf/133.png", scale=(1,1))
+    # menu.add.image("sprite/rfvf/4.png", scale=(1,1))
+    # menu.add.image("sprite/rfvf/7.png", scale=(1,1))
+    # menu.add.image("sprite/rfvf/25.png", scale=(1,1))
+    # menu.add.image("sprite/rfvf/133.png", scale=(1,1))
+    # menu.add.image("sprite/rfvf/1.png", scale=(1,1))
+    # menu.add.image("sprite/rfvf/58.png", scale=(1,1))
+    # menu.add.image("sprite/rfvf/150.png", scale=(1,1))
     menu.mainloop(surface)
     
     if selecteur_poke.get_index() == 0:
@@ -381,6 +384,12 @@ def main():
         player_team[0] = Pokemon(Pikachu(),'player', 0, 0)
     if selecteur_poke.get_index() == 3:
         player_team[0] = Pokemon(Evoli(),'player', 0, 0)
+    if selecteur_poke.get_index() == 4:
+        player_team[0] = Pokemon(Bulbizarre(),'player', 0, 0)
+    if selecteur_poke.get_index() == 5:
+        player_team[0] = Pokemon(Caninos(),'player', 0, 0)
+    if selecteur_poke.get_index() == 6:
+        player_team[0] = Pokemon(Mewtwo(),'player', 0, 0)
     
     
     if selecteur_carte.get_index() == 0:
