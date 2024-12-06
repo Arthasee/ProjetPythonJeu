@@ -159,11 +159,11 @@ class Game:
             target = random.choice(self.player_units)
 
             # Calculer les positions accessibles pour l'ennemi
-            accessible_positions = self.get_accessible_positions(enemy, max_distance=10)
+            # accessible_positions = self.get_accessible_positions(enemy, max_distance=10)
 
             while self.enemy_action_points > 0:
+                accessible_positions = self.get_accessible_positions(enemy, max_distance=10)
                 distance = abs(enemy.x - target.x) + abs(enemy.y - target.y)
-
                 # Tenter d'attaquer si à portée
                 if distance == 1:
                     available_skills = [s for s in enemy.capacites if s.cout_pa <= self.enemy_action_points]
@@ -181,7 +181,7 @@ class Game:
                 elif distance > 1 and accessible_positions:
                     target_position = min(accessible_positions, key=lambda pos: abs(pos[0] - target.x) + abs(pos[1] - target.y))
                     path = self.chemin.calculate_path(enemy.x, enemy.y, target_position[0], target_position[1])
-
+                    print("on a trouvé ",len(accessible_positions))
                     # Animer le déplacement du Pokémon le long du chemin
                     for (x, y) in path:
                         if self.enemy_action_points <= 0:
