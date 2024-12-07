@@ -131,7 +131,7 @@ class Salameche:
         self.stats = [39,52,43,60,50,65]
         self.type = ["feu"]
         self.faiblesse = ["eau", "sol", "roche"]
-        self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 6)]
+        self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/salameche.png") #sprite/rfvf/4.png
         # self.walk = [pygame.image.load("sprite/rfvf/walk/o_hs_004_1.png").convert_alpha(), ]
@@ -144,7 +144,7 @@ class Carapuce:
         self.stats = [44,48,65,50,64,43]
         self.type = ["eau"]
         self.faiblesse = ["plante", "electrik"]
-        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Mimi-Queue", "normal", 2/3, 100, 1, 1, "non-attaque", "defense", 6)]
+        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Mimi-Queue", "normal", 2/3, 100, 1, 1, "non-attaque", "defense", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/carapuce.png")
 
@@ -156,7 +156,7 @@ class Bulbizarre:
         self.stats = [45, 49, 49, 65, 65, 45]
         self.type = ["plante, poison"]
         self.faiblesse = ["feu", "glace", "vol", "psy"]
-        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 6)]
+        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/bulbizarre.png")
         
@@ -168,7 +168,7 @@ class Pikachu:
         self.stats = [35,55,30,50,40,90]
         self.type = ["electrik"]
         self.faiblesse = ["sol"]
-        self.capacites = [Capacite("Éclair", "electrik", 40, 100, 2, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 6)]
+        self.capacites = [Capacite("Éclair", "electrik", 40, 100, 2, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/pikachu.png")
         
@@ -192,7 +192,7 @@ class Evoli:
         self.stats = [55, 55, 50, 45, 65, 55]
         self.type = ["normal"]
         self.faiblesse = ["combat"]
-        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 6)]
+        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/evoli.png")
 
@@ -204,6 +204,6 @@ class Mewtwo:
         self.stats = [106, 110, 90, 154, 90, 130]
         self.type = ["psy"]
         self.faiblesse = ["insecte", "spectre", "tenebre"]
-        self.capacites = [Capacite("Choc Mental", "psy", 50, 100, 1, 1, "attaque", None, 6), Capacite("Météores", "normal", 60, 100, 1, 1, "attaque", None, 6)]
+        self.capacites = [Capacite("Choc Mental", "psy", 50, 100, 1, 1, "attaque", None, 6), Capacite("Météores", "normal", 60, 100, 1, 1, "attaque", None, 8)]
         self.niveau = 50
         self.image = pygame.image.load("sprite/rfvf/mewtwo.png")

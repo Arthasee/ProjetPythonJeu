@@ -447,9 +447,9 @@ def main():
     # Instanciation du jeu
     player_team = []
     player_team.append(Pokemon(Carapuce(),'player', 0, 0))
-    enemy_choice = [Pokemon(Salameche(), 'player', 31, 23),Pokemon(Carapuce(),'player', 31, 23),Pokemon(Pikachu(),'player', 31, 23),Pokemon(Evoli(),'player', 31, 23),Pokemon(Bulbizarre(),'player', 31, 23),
-                    Pokemon(Mewtwo(),'player', 31, 23), Pokemon(Caninos(),'player', 31, 23)]
-    choix = random.randint(0,3)
+    enemy_choice = [Pokemon(Salameche(), 'ennemy', 31, 23),Pokemon(Carapuce(),'ennemy', 31, 23),Pokemon(Pikachu(),'ennemy', 31, 23),Pokemon(Evoli(),'ennemy', 31, 23),Pokemon(Bulbizarre(),'ennemy', 31, 23),
+                    Pokemon(Mewtwo(),'ennemy', 31, 23), Pokemon(Caninos(),'ennemy', 31, 23)]
+    choix = random.randint(0,4)
     choix_map = ""
     
     selecteur_poke = menu.add.selector('Pokémon :', [('Salamèche', 1), ('Carapuce', 2), ('Pikachu', 3), ('Évoli', 4), ('Bulbizarre', 5), ('Mewtwo', 6), ('Caninos', 7)])
