@@ -6,7 +6,7 @@ class EnemyAI:
 
     def calcul_mouvement(self, enemy, target, accessible_positions):  
         if self.Niveau ==  "facile" :   
-            return self.random_move(accessible_positions)  # un mouvement aléatoire 
+            return self.move_avec_erreur(enemy, target, error_rate=0.90)
         elif self.Niveau == "moyen": 
             return self.move_avec_erreur(enemy, target, error_rate=0.25) # un mouvement en faisant des erreures  jai pris 25%    
         elif self.Niveau == "difficile":
