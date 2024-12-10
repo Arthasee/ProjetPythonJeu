@@ -50,7 +50,7 @@ class Pokemon:
             pygame.draw.rect(screen, GREEN, (self.x * CELL_SIZE,self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE),2)
         screen.blit(self.image, (self.x*CELL_SIZE,self.y*CELL_SIZE))
 
-    def attaquer(self, capacite, adversaire):
+    def attaquer(self, capacite, adversaire,screen):
         """fonction qui calcule les points de vie de l'adversaire touché par l'attaque
 
         Args:
@@ -73,6 +73,7 @@ class Pokemon:
             stab *= 1.5
         cm *= eff*stab
         damage = ((((self.niveau * 0.4 + 2) * capacite.puissance * self.attaque) / adversaire.defense) / 50 + 2) * cm
+        screen.blit(capacite.sprite, (adversaire.x*CELL_SIZE, adversaire.y*CELL_SIZE))
         adversaire.pv = max(0, adversaire.pv - damage)  # Empêche les PV d'être négatifs
 
     def non_attaquer(self, capacite, adversaire):
@@ -122,6 +123,8 @@ class Capacite:
         self.categorie = categorie
         self.stat = stat
         self.cout_pa = cout_pa
+        self.sprite = pygame.image.load("sprite/coup.png")
+        
 
 class Salameche:
     """Construit la classe du pokémon Salamèche avec ses statistiques, force, faiblesse et capacité

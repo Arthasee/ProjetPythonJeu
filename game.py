@@ -200,7 +200,7 @@ class Game:
                         available_skills = [s for s in enemy.capacites if s.cout_pa <= self.enemy_action_points]
                         if available_skills:
                             skill = random.choice(available_skills)
-                            enemy.attaquer(skill, target)
+                            enemy.attaquer(skill, target, self.screen)
                             self.enemy_action_points -= skill.cout_pa
                             if target.pv <= 0:
                                 self.player_units.remove(target)
@@ -411,7 +411,7 @@ class Game:
                 else:
                     # Vérifier le type de compétence (attaque ou non attaque)
                     if skill.categorie == "attaque":
-                        self.selected_unit.attaquer(skill, target)  # Attaque
+                        self.selected_unit.attaquer(skill, target, self.screen)  # Attaque
                         self.interface.set_info_message(f"{self.selected_unit.nom} utilise {skill.nom} !")
                     elif skill.categorie == "non-attaque":
                         self.selected_unit.non_attaquer(skill, target)  # Utiliser la compétence de type non attaque sur la cible
