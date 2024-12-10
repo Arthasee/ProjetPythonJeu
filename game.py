@@ -42,9 +42,11 @@ class Game:
         self.chemin = Chemin(self)  # Instanciation de l'objet Chemin
         self.interface = Interface(self) # Instanciation de l'objet Interface
         self.menu = Menu(self)  # Instanciation de l'objet Menu
-        # pygame.mixer.init()
-        # pygame.mixer.music.load("music/1-03. Title Screen.mp3")
-        # pygame.mixer.music.play()
+        
+        pygame.mixer.init()
+        pygame.mixer.music.load("music/battle.mp3")
+        pygame.mixer.music.play()
+        
         self.current_turn = 'player' # Commence par le tour du joueur
         self.player_units = player
         self.enemy_units = enemy
@@ -169,7 +171,7 @@ class Game:
                     available_skills = [s for s in enemy.capacites if s.cout_pa <= self.enemy_action_points]
                     if available_skills:
                         skill = random.choice(available_skills)
-                        enemy.attaquer(skill, target, self.scren)
+                        enemy.attaquer(skill, target, self.screen)
                         self.enemy_action_points -= skill.cout_pa
                         if target.pv <= 0:
                             self.player_units.remove(target)
@@ -438,7 +440,10 @@ def main():
     """
     # Initialisation de Pygame
     pygame.init()
-
+    pygame.mixer.init()
+    pygame.mixer.music.load("music/1-03. Title Screen.mp3")
+    pygame.mixer.music.play()
+    
     # Instanciation de la fenêtre
     screen = pygame.display.set_mode((TOTAL_WIDTH, TOTAL_HEIGHT))
     pygame.display.set_caption("PokeBattle")
@@ -482,6 +487,7 @@ def main():
         choix_map = "map_2.tmx"
     if selecteur_carte.get_index() == 2:
         choix_map = "map_3.tmx"
+    pygame.mixer.music.pause()
     game = Game(screen, player_team,[enemy_choice[choix]], choix_map)
     # Boucle principale du jeu
     while True:
