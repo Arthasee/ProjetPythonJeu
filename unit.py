@@ -123,7 +123,7 @@ class Capacite:
         self.categorie = categorie
         self.stat = stat
         self.cout_pa = cout_pa
-        self.sprite = pygame.image.load("sprite/coup.png")
+        self.sprite = pygame.image.load("sprite/explosion.png")
         
 
 class Salameche:

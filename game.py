@@ -169,7 +169,7 @@ class Game:
                     available_skills = [s for s in enemy.capacites if s.cout_pa <= self.enemy_action_points]
                     if available_skills:
                         skill = random.choice(available_skills)
-                        enemy.attaquer(skill, target)
+                        enemy.attaquer(skill, target, self.scren)
                         self.enemy_action_points -= skill.cout_pa
                         if target.pv <= 0:
                             self.player_units.remove(target)
