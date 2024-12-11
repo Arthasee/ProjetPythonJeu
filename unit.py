@@ -22,10 +22,19 @@ class Pokemon:
         self.att_spe = self.pokemon.stats[3]
         self.def_spe = self.pokemon.stats[4]
         self.vitesse = self.pokemon.stats[5]
+        self.nerfs = {
+            "attaque": 0,
+            "defense": 0,
+            "vitesse": 0,
+            "attaque_spé": 0,
+            "defense_spé": 0
+        }
         self.type = self.pokemon.type
         self.faiblesse = self.pokemon.faiblesse
         self.capacites = self.pokemon.capacites
         self.niveau = self.pokemon.niveau
+        self.has_attacked = False  # Indicateur pour suivre si le Pokémon a attaqué ce tour
+        self.movement_points_used = 0 # Nombre de points de mouvement utilisés ce tour (permet eviter les déplacements trop longs)
         self.is_selected = False
         self.image = pokemon.image
         self.image = pygame.transform.scale(self.image, (CELL_SIZE, CELL_SIZE)) # Redimensionner les sprites
@@ -65,7 +74,8 @@ class Pokemon:
         if capacite.type == self.type:
             stab *= 1.5
         cm *= eff*stab
-        adversaire.pv -= ((((self.niveau*0.4+2)*capacite.puissance*self.attaque)/adversaire.defense)/50 + 2)*cm
+        damage = ((((self.niveau * 0.4 + 2) * capacite.puissance * self.attaque) / adversaire.defense) / 50 + 2) * cm
+        adversaire.pv = max(0, adversaire.pv - damage)  # Empêche les PV d'être négatifs
 
     def non_attaquer(self, capacite, adversaire):
         """fonction qui calcule la diminution ou l'augmentation des statistiques du pokémon
@@ -96,7 +106,7 @@ class Capacite:
     la distance qu'elle peut accéder, le niveau à avoir pour la débloquer, 
     si la capacité est passive ou non, la statistique qu'elle touche si c'est une capacité passive
     """
-    def __init__(self, nom, types, puissance, precision, distance, niveau, categorie, stat):
+    def __init__(self, nom, types, puissance, precision, distance, niveau, categorie, stat, cout_pa):
         self.nom = nom
         self.type = types
         self.puissance = puissance
@@ -105,6 +115,8 @@ class Capacite:
         self.niveau = niveau
         self.categorie = categorie
         self.stat = stat
+        self.cout_pa = cout_pa
+        self.sprite = pygame.image.load("sprite/explosion.png")
 
 class Salameche:
     """Construit la classe du pokémon Salamèche avec ses statistiques, force, faiblesse et capacité
@@ -114,7 +126,7 @@ class Salameche:
         self.stats = [39,52,43,60,50,65]
         self.type = ["feu"]
         self.faiblesse = ["eau", "sol", "roche"]
-        self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
+        self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/salameche.png") #sprite/rfvf/4.png
         # self.walk = [pygame.image.load("sprite/rfvf/walk/o_hs_004_1.png").convert_alpha(), ]
@@ -127,7 +139,7 @@ class Carapuce:
         self.stats = [44,48,65,50,64,43]
         self.type = ["eau"]
         self.faiblesse = ["plante", "electrik"]
-        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Mimi-Queue", "normal", 2/3, 100, 1, 1, "non-attaque", "defense")]
+        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Mimi-Queue", "normal", 2/3, 100, 1, 1, "non-attaque", "defense", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/carapuce.png")
 
@@ -139,7 +151,7 @@ class Bulbizarre:
         self.stats = [45, 49, 49, 65, 65, 45]
         self.type = ["plante, poison"]
         self.faiblesse = ["feu", "glace", "vol", "psy"]
-        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
+        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/bulbizarre.png")
         
@@ -151,7 +163,7 @@ class Pikachu:
         self.stats = [35,55,30,50,40,90]
         self.type = ["electrik"]
         self.faiblesse = ["sol"]
-        self.capacites = [Capacite("Éclair", "electrik", 40, 100, 2, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
+        self.capacites = [Capacite("Éclair", "electrik", 40, 100, 2, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/pikachu.png")
         
@@ -163,7 +175,7 @@ class Caninos:
         self.stats = [55,70,45,70,50,60]
         self.type = ["feu"]
         self.faiblesse = ["eau", "sol", "roche"]
-        self.capacites = [Capacite("Morsure", "normal", 60, 100, 1, 1, "attaque", None)]
+        self.capacites = [Capacite("Morsure", "normal", 60, 100, 1, 1, "attaque", None, 6)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/caninos.png")
         
@@ -175,7 +187,7 @@ class Evoli:
         self.stats = [55, 55, 50, 45, 65, 55]
         self.type = ["normal"]
         self.faiblesse = ["combat"]
-        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque")]
+        self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,1,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/evoli.png")
 
@@ -187,6 +199,6 @@ class Mewtwo:
         self.stats = [106, 110, 90, 154, 90, 130]
         self.type = ["psy"]
         self.faiblesse = ["insecte", "spectre", "tenebre"]
-        self.capacites = [Capacite("Choc Mental", "psy", 50, 100, 1, 1, "attaque", None), Capacite("Météores", "normal", 60, 100, 1, 1, "attaque", None)]
+        self.capacites = [Capacite("Choc Mental", "psy", 50, 100, 1, 1, "attaque", None, 6), Capacite("Météores", "normal", 60, 100, 1, 1, "attaque", None, 8)]
         self.niveau = 50
         self.image = pygame.image.load("sprite/rfvf/mewtwo.png")

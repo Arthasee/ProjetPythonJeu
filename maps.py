@@ -15,6 +15,8 @@ class Map:
         # Initialisation des collisions
         self.collisions = []
         self._load_collisions()
+        self.water_zones = []
+        self._load_water_zones()
 
     def switch_map(self):
         """
@@ -58,10 +60,22 @@ class Map:
                 rect = pygame.Rect(grid_x * CELL_SIZE, grid_y * CELL_SIZE, grid_width * CELL_SIZE, grid_height * CELL_SIZE)
                 self.collisions.append(rect)
                 
-                 
+    def _load_water_zones(self):
+        """Charge les zones d'eau depuis la couche 'eau' de Tiled."""
+        self.water_zones = []
 
+        # Vérifier que la couche "eau" existe
+        try:
+            water_layer = self.tmx_data.get_layer_by_name("eau ")
+        except ValueError:
+            print("Aucune couche 'eau' trouvée dans la carte.")
+            return
 
-
+        # Parcourir les tuiles de la couche "eau"
+        for x, y, gid in water_layer:
+            if gid != 0:  # Une tuile avec gid = 0 est vide
+                tile_rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+                self.water_zones.append(tile_rect)
     
     def update(self):
         """Dessine la carte et les collisions (pour debug)."""
@@ -69,5 +83,5 @@ class Map:
         
          # Dessiner les zones de collision pour debug
         #for rect in self.collisions:
-            #pygame.draw.rect(self.screen, (255, 0, 0), rect, 2)  # Rouge pour visualiser les collisions
+        #    pygame.draw.rect(self.screen, (255, 0, 0), rect, 2)  # Rouge pour visualiser les collisions
 
