@@ -552,8 +552,8 @@ def main():
 
     # Liste des Pokémon disponibles
     starter_pokemon = [
-        ("Salamèche", Salameche()), ("Carapuce", Carapuce()), ("Pikachu", Pikachu()),
-        ("Évoli", Evoli()), ("Bulbizarre", Bulbizarre()), ("Mewtwo", Mewtwo()), ("Caninos", Caninos())
+        ("Salamèche", Salameche('player', 0, 0)), ("Carapuce", Carapuce('player', 0, 0)), ("Pikachu", Pikachu('player', 0, 0)),
+        ("Évoli", Evoli('player', 0, 0)), ("Bulbizarre", Bulbizarre('player', 0, 0)), ("Mewtwo", Mewtwo('player', 0, 0)), ("Caninos", Caninos('player', 0, 0))
     ]
 
     # Ajout de plusieurs sélecteurs pour choisir 3 Pokémon
@@ -599,7 +599,7 @@ def main():
 
     # Extraction des Pokémon sélectionnés
     selected_indices = [selector.get_value()[0][1] for selector in selectors]
-    player_team = [Pokemon(starter_pokemon[j][1], 'player', 0, 0) for j in selected_indices]
+    player_team = [starter_pokemon[j][1] for j in selected_indices]
 
     # Définir les spawns spécifiques selon la carte sélectionnée (gestion eau pour plage)
     choix_map = {1: "map_1.tmx", 2: "map_2.tmx", 3: "map_3.tmx"}[selecteur_carte.get_value()[0][1]]
@@ -611,8 +611,8 @@ def main():
         enemy_spawn_area = {"min_x": 24, "max_x": 29, "min_y": 17, "max_y": 21}
 
     # Initialisation du jeu
-    enemy_choice = [Salameche(), Carapuce(), Pikachu(), Evoli(), Bulbizarre(), Mewtwo(), Caninos()]
-    enemy_team = random.sample([Pokemon(enemy, 'enemy', 0, 0) for enemy in enemy_choice], 3)
+    enemy_choice = [Salameche('enemy', 0, 0), Carapuce('enemy', 0, 0), Pikachu('enemy', 0, 0), Evoli('enemy', 0, 0), Bulbizarre('enemy', 0, 0), Mewtwo('enemy', 0, 0), Caninos('enemy', 0, 0)]
+    enemy_team = random.sample([enemy for enemy in enemy_choice], 3)
     difficulty = difficulty_selector.get_value()[0][1]
     game = Game(screen, player_team, enemy_team, choix_map, difficulty=difficulty)
 

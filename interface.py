@@ -22,7 +22,7 @@ class Interface :
         # Afficher les PV de tous les Pokémon du joueur
         for player_pokemon in self.game.player_units:
             pv_arrondis = math.ceil(player_pokemon.pv)# Arrondir les PV à l'entier supérieur UNIQUEMENT ATH
-            pv_max = player_pokemon.pokemon.stats[0]  # Utilisation de pokemon.stats[0] pour les PV max
+            pv_max = player_pokemon.pv_max  # Utilisation de pokemon.stats[0] pour les PV max
             health_text = f"{player_pokemon.nom} PV: {pv_arrondis}/{pv_max}"
             text_surface = font_small.render(health_text, True, (255, 255, 255))  # Couleur blanche pour les joueurs
             text_rect = text_surface.get_rect(topleft=(MAP_WIDTH + 10, y_offset))
@@ -35,7 +35,7 @@ class Interface :
         # Afficher les PV de tous les Pokémon ennemis
         for enemy_pokemon in self.game.enemy_units:
             pv_arrondis = math.ceil(enemy_pokemon.pv)
-            pv_max = enemy_pokemon.pokemon.stats[0]  # Utilisation de pokemon.stats[0] pour les PV max
+            pv_max = enemy_pokemon.pv_max  # Utilisation de pokemon.stats[0] pour les PV max
 
             # Ajouter la mention "ennemi" si le Pokémon a le même nom qu'un Pokémon du joueur
             if any(enemy_pokemon.nom == player_pokemon.nom for player_pokemon in self.game.player_units):

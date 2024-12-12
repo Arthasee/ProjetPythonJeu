@@ -10,18 +10,17 @@ class Pokemon:
     ses capacités et son niveau
     """
 
-    def __init__(self, pokemon, team, x, y):
-        self.pokemon = pokemon
+    def __init__(self, team, x, y):
         self.team = team
         self.x = x
         self.y = y
-        self.nom = pokemon.nom
-        self.pv = self.pokemon.stats[0]
-        self.attaque = self.pokemon.stats[1]
-        self.defense = self.pokemon.stats[2]
-        self.att_spe = self.pokemon.stats[3]
-        self.def_spe = self.pokemon.stats[4]
-        self.vitesse = self.pokemon.stats[5]
+        self.__pv_max = None
+        self.pv = None
+        self.attaque = None
+        self.defense = None
+        self.att_spe = None
+        self.def_spe = None
+        self.vitesse = None
         self.nerfs = {
             "attaque": 0,
             "defense": 0,
@@ -29,15 +28,22 @@ class Pokemon:
             "attaque_spé": 0,
             "defense_spé": 0
         }
-        self.type = self.pokemon.type
-        self.faiblesse = self.pokemon.faiblesse
-        self.capacites = self.pokemon.capacites
-        self.niveau = self.pokemon.niveau
+        self.niveau = None
+        self.type = None
+        self.faiblesse = []
+        self.capacites = []
         self.has_attacked = False  # Indicateur pour suivre si le Pokémon a attaqué ce tour
         self.movement_points_used = 0 # Nombre de points de mouvement utilisés ce tour (permet eviter les déplacements trop longs)
         self.is_selected = False
-        self.image = pokemon.image
-        self.image = pygame.transform.scale(self.image, (cst.CELL_SIZE, cst.CELL_SIZE)) # Redimensionner les sprites
+        self.image = None
+        
+    @property
+    def pv_max(self):
+        return self.__pv_max
+
+    @pv_max.setter
+    def pv_max(self, pv):
+        self.__pv_max = pv
 
     def move(self, dx, dy):
         """Déplace l'unité de dx, dy."""
@@ -118,86 +124,146 @@ class Capacite:
         self.cout_pa = cout_pa
         self.sprite = pygame.image.load("sprite/explosion.png")
 
-class Salameche:
+class Salameche(Pokemon):
     """Construit la classe du pokémon Salamèche avec ses statistiques, force, faiblesse et capacité
     """
-    def __init__(self):
+    def __init__(self, team, x, y):
+        Pokemon.__init__(self, team, x, y)
         self.nom = "Salamèche"
-        self.stats = [39,52,43,60,50,65]
+        self.pv_max = 39
+        self.pv = 39
+        self.attaque = 52
+        self.defense = 43
+        self.att_spe = 60
+        self.def_spe = 50
+        self.vitesse = 65
         self.type = ["feu"]
         self.faiblesse = ["eau", "sol", "roche"]
         self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,3,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/salameche.png")
+        self.image = pygame.transform.scale(self.image, (cst.CELL_SIZE, cst.CELL_SIZE)) # Redimensionner les sprites
 
-class Carapuce:
+
+class Carapuce(Pokemon):
     """Construit la classe du pokémon Carapuce avec ses statistiques, force, faiblesse et capacité
     """
-    def __init__(self):
+    def __init__(self, team, x, y):
+        Pokemon.__init__(self, team, x, y)
         self.nom = "Carapuce"
-        self.stats = [44,48,65,50,64,43]
+        self.pv_max = 44
+        self.pv = 44
+        self.attaque = 48
+        self.defense = 65
+        self.att_spe = 50
+        self.def_spe = 64
+        self.vitesse = 43
         self.type = ["eau"]
         self.faiblesse = ["plante", "electrik"]
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Mimi-Queue", "normal", 2/3, 100, 3, 1, "non-attaque", "defense", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/carapuce.png")
+        self.image = pygame.transform.scale(self.image, (cst.CELL_SIZE, cst.CELL_SIZE)) # Redimensionner les sprites
 
-class Bulbizarre:
+
+class Bulbizarre(Pokemon):
     """Construit la classe du pokémon Bulbizarre avec ses statistiques, force, faiblesse et capacité
     """
-    def __init__(self):
+    def __init__(self, team, x, y):
+        Pokemon.__init__(self, team, x, y)
         self.nom = "Bulbizarre"
-        self.stats = [45, 49, 49, 65, 65, 45]
+        self.pv_max = 44
+        self.pv = 44
+        self.attaque = 49
+        self.defense = 49
+        self.att_spe = 65
+        self.def_spe = 65
+        self.vitesse = 45
         self.type = ["plante, poison"]
         self.faiblesse = ["feu", "glace", "vol", "psy"]
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,3,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/bulbizarre.png")
+        self.image = pygame.transform.scale(self.image, (cst.CELL_SIZE, cst.CELL_SIZE)) # Redimensionner les sprites
 
-class Pikachu:
+class Pikachu(Pokemon):
     """Construit la classe du pokémon Pikachu avec ses statistiques, force, faiblesse et capacité
     """
-    def __init__(self):
+    def __init__(self, team, x, y):
+        Pokemon.__init__(self, team, x, y)
         self.nom = "Pikachu"
-        self.stats = [35,55,30,50,40,90]
+        self.pv_max = 35
+        self.pv = 35
+        self.attaque = 55
+        self.defense = 30
+        self.att_spe = 50
+        self.def_spe = 40
+        self.vitesse = 90
         self.type = ["electrik"]
         self.faiblesse = ["sol"]
         self.capacites = [Capacite("Éclair", "electrik", 40, 100, 2, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,3,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/pikachu.png")
+        self.image = pygame.transform.scale(self.image, (cst.CELL_SIZE, cst.CELL_SIZE)) # Redimensionner les sprites
 
-class Caninos:
+class Caninos(Pokemon):
     """Construit la classe du pokémon Caninos avec ses statistiques, force, faiblesse et capacité
     """
-    def __init__(self):
+    def __init__(self, team, x, y):
+        Pokemon.__init__(self, team, x, y)
         self.nom = "Caninos"
-        self.stats = [55,70,45,70,50,60]
+        self.pv_max = 55
+        self.pv = 55
+        self.attaque = 70
+        self.defense = 45
+        self.att_spe = 70
+        self.def_spe = 50
+        self.vitesse = 60
         self.type = ["feu"]
         self.faiblesse = ["eau", "sol", "roche"]
         self.capacites = [Capacite("Morsure", "normal", 60, 100, 1, 1, "attaque", None, 6)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/caninos.png")
+        self.image = pygame.transform.scale(self.image, (cst.CELL_SIZE, cst.CELL_SIZE)) # Redimensionner les sprites
 
-class Evoli:
+class Evoli(Pokemon):
     """Construit la classe du pokémon Evoli avec ses statistiques, force, faiblesse et capacité
     """
-    def __init__(self):
+    def __init__(self, team, x, y):
+        Pokemon.__init__(self, team, x, y)
         self.nom = "Évoli"
-        self.stats = [55, 55, 50, 45, 65, 55]
+        self.pv_max = 55
+        self.pv = 55
+        self.attaque = 55
+        self.defense = 50
+        self.att_spe = 45
+        self.def_spe = 65
+        self.vitesse = 55
         self.type = ["normal"]
         self.faiblesse = ["combat"]
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,3,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/evoli.png")
+        self.image = pygame.transform.scale(self.image, (cst.CELL_SIZE, cst.CELL_SIZE)) # Redimensionner les sprites
 
-class Mewtwo:
+class Mewtwo(Pokemon):
     """Construit la classe du pokémon Mewtwo avec ses statistiques, force, faiblesse et capacité
     """
-    def __init__(self):
+    def __init__(self, team, x ,y):
+        Pokemon.__init__(self, team, x, y)
         self.nom = "Mewtwo"
         self.stats = [106, 110, 90, 154, 90, 130]
+        self.pv_max = 106
+        self.pv = 106
+        self.attaque = 110
+        self.defense = 90
+        self.att_spe = 154
+        self.def_spe = 90
+        self.vitesse = 130
         self.type = ["psy"]
         self.faiblesse = ["insecte", "spectre", "tenebre"]
         self.capacites = [Capacite("Choc Mental", "psy", 50, 100, 5, 1, "attaque", None, 6), Capacite("Météores", "normal", 60, 100, 1, 1, "attaque", None, 8)]
         self.niveau = 50
         self.image = pygame.image.load("sprite/rfvf/mewtwo.png")
+        self.image = pygame.transform.scale(self.image, (cst.CELL_SIZE, cst.CELL_SIZE)) # Redimensionner les sprites
+
