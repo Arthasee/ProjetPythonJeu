@@ -2,7 +2,7 @@
     """
 import random
 import pygame
-from constante import *
+import constante as cst
 
 
 class Pokemon:
@@ -37,11 +37,11 @@ class Pokemon:
         self.movement_points_used = 0 # Nombre de points de mouvement utilisés ce tour (permet eviter les déplacements trop longs)
         self.is_selected = False
         self.image = pokemon.image
-        self.image = pygame.transform.scale(self.image, (CELL_SIZE, CELL_SIZE)) # Redimensionner les sprites
+        self.image = pygame.transform.scale(self.image, (cst.CELL_SIZE, cst.CELL_SIZE)) # Redimensionner les sprites
 
     def move(self, dx, dy):
         """Déplace l'unité de dx, dy."""
-        if 0 <= self.x + dx < GRID_WIDTH and 0 <= self.y + dy < GRID_HEIGHT:
+        if 0 <= self.x + dx < cst.GRID_WIDTH and 0 <= self.y + dy < cst.GRID_HEIGHT:
             self.x += dx
             self.y += dy
 
@@ -49,8 +49,8 @@ class Pokemon:
         """Affiche l'unité sur l'écran."""
         # color = BLUE if self.team == 'player' else RED
         if self.is_selected:
-            pygame.draw.rect(screen, GREEN, (self.x * CELL_SIZE,self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE),2)
-        screen.blit(self.image, (self.x*CELL_SIZE,self.y*CELL_SIZE))
+            pygame.draw.rect(screen, cst.GREEN, (self.x * cst.CELL_SIZE,self.y * cst.CELL_SIZE, cst.CELL_SIZE, cst.CELL_SIZE),2)
+        screen.blit(self.image, (self.x*cst.CELL_SIZE,self.y*cst.CELL_SIZE))
 
     def attaquer(self, capacite, adversaire):
         """fonction qui calcule les points de vie de l'adversaire touché par l'attaque
@@ -128,8 +128,7 @@ class Salameche:
         self.faiblesse = ["eau", "sol", "roche"]
         self.capacites = [Capacite("Griffe", "normal", 40, 100,1,1,"attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,3,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
-        self.image = pygame.image.load("sprite/rfvf/salameche.png") #sprite/rfvf/4.png
-        # self.walk = [pygame.image.load("sprite/rfvf/walk/o_hs_004_1.png").convert_alpha(), ]
+        self.image = pygame.image.load("sprite/rfvf/salameche.png")
 
 class Carapuce:
     """Construit la classe du pokémon Carapuce avec ses statistiques, force, faiblesse et capacité
@@ -154,7 +153,7 @@ class Bulbizarre:
         self.capacites = [Capacite("Charge", "normal", 35, 95, 1, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,3,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/bulbizarre.png")
-        
+
 class Pikachu:
     """Construit la classe du pokémon Pikachu avec ses statistiques, force, faiblesse et capacité
     """
@@ -166,7 +165,7 @@ class Pikachu:
         self.capacites = [Capacite("Éclair", "electrik", 40, 100, 2, 1, "attaque", None, 6), Capacite("Rugissement", "normal", 2/3, 100,3,1, "non-attaque", "attaque", 4)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/pikachu.png")
-        
+
 class Caninos:
     """Construit la classe du pokémon Caninos avec ses statistiques, force, faiblesse et capacité
     """
@@ -178,7 +177,7 @@ class Caninos:
         self.capacites = [Capacite("Morsure", "normal", 60, 100, 1, 1, "attaque", None, 6)]
         self.niveau = 1
         self.image = pygame.image.load("sprite/rfvf/caninos.png")
-        
+
 class Evoli:
     """Construit la classe du pokémon Evoli avec ses statistiques, force, faiblesse et capacité
     """

@@ -3,6 +3,7 @@
 import random
 import pygame
 import pygame_menu
+from constante import *
 from maps import Map 
 from screen import Screen 
 from unit import *
