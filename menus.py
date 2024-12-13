@@ -42,8 +42,17 @@ class Menu :
                 for i, pokemon in enumerate(self.game.player_units)
             ]
 
+        elif self.current_menu == "target":
+            # Menu de sélection de cible après avoir choisi une attaque
+            targets = self.game.get_available_targets()
+            buttons = [
+                (f"{target.nom}", self.get_pokemon_button_rect(i), lambda target=target: self.game.attack_target(target))
+                for i, target in enumerate(targets)
+            ]
+            buttons.append(("Retour", self.calculate_back_button_position(len(buttons)), lambda: self.switch_to_menu("skills")))
+
         # Ajouter le bouton "Retour" de manière dynamique pour tous les menus sauf "main"
-        if self.current_menu != "main":
+        if self.current_menu != "main" and self.current_menu != "target":
             self.game.back_button_rect = self.calculate_back_button_position(len(buttons))
             buttons.append(("Retour", self.game.back_button_rect, lambda: self.switch_to_menu("main")))
 
@@ -53,6 +62,7 @@ class Menu :
         """Gère les clics sur un menu fourni."""
         for button_name, button_rect, action_callback in buttons:
             if button_rect.collidepoint(mouse_x, mouse_y):
+                #print(f"Bouton cliqué : {button_name}") #Debug
                 action_callback()
                 return  # Exécuter l'action du bouton
     
@@ -171,4 +181,5 @@ class Menu :
 
             if self.current_menu == "main":
                 selected = True
+
 
