@@ -42,17 +42,8 @@ class Menu :
                 for i, pokemon in enumerate(self.game.player_units)
             ]
 
-        elif self.current_menu == "target":
-            # Menu de sélection de cible après avoir choisi une attaque
-            targets = self.game.get_available_targets()
-            buttons = [
-                (f"{target.nom}", self.get_pokemon_button_rect(i), lambda target=target: self.game.attack_target(target))
-                for i, target in enumerate(targets)
-            ]
-            buttons.append(("Retour", self.calculate_back_button_position(len(buttons)), lambda: self.switch_to_menu("skills")))
-
         # Ajouter le bouton "Retour" de manière dynamique pour tous les menus sauf "main"
-        if self.current_menu != "main" and self.current_menu != "target":
+        if self.current_menu != "main":
             self.game.back_button_rect = self.calculate_back_button_position(len(buttons))
             buttons.append(("Retour", self.game.back_button_rect, lambda: self.switch_to_menu("main")))
 
@@ -62,7 +53,6 @@ class Menu :
         """Gère les clics sur un menu fourni."""
         for button_name, button_rect, action_callback in buttons:
             if button_rect.collidepoint(mouse_x, mouse_y):
-                #print(f"Bouton cliqué : {button_name}") #Debug
                 action_callback()
                 return  # Exécuter l'action du bouton
     
@@ -70,7 +60,7 @@ class Menu :
         """Dessine un menu en 2x2 avec les boutons fournis."""
         font = pygame.font.Font(None, 36)
         # Afficher le titre du menu
-        title_text = font.render(menu_title, True, WHITE)
+        title_text = font.render(menu_title, True, BLACK)
         title_rect = title_text.get_rect(center=(MAP_WIDTH + ATH_WIDTH // 2, 50))
         self.game.screen.blit(title_text, title_rect)
 
@@ -84,11 +74,11 @@ class Menu :
                     text_color = (150, 150, 150)  # Gris clair pour indiquer indisponibilité
                 else:
                     button_color = (100, 100, 100)  # Couleur normale
-                    text_color = WHITE
+                    text_color = BLACK
             else:
                 # Si ce n'est pas un bouton de compétence, utiliser les couleurs normales
                 button_color = (100, 100, 100)
-                text_color = WHITE
+                text_color = BLACK
 
                 # Spécial pour "Passer le tour"
                 if button_name == "Passer le tour" and self.game.player_action_points == 0:
@@ -107,7 +97,7 @@ class Menu :
         font = pygame.font.Font(None, 36)
 
         # Titre du menu
-        title_text = font.render("Choisissez un Pokémon", True, WHITE)
+        title_text = font.render("Choisissez un Pokémon", True, BLACK)
         title_rect = title_text.get_rect(center=(MAP_WIDTH + ATH_WIDTH // 2, 50))
         self.game.screen.blit(title_text, title_rect)
 
@@ -181,5 +171,4 @@ class Menu :
 
             if self.current_menu == "main":
                 selected = True
-
 
