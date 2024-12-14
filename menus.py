@@ -5,7 +5,7 @@ from constante import *
 class Menu :
     def __init__(self, game):
         self.game = game
-        self.current_menu = "main"
+        self.current_menu = "main"  # Définit le menu actif
 
     def get_menu_buttons(self):
         """Renvoie la liste des boutons pour le menu actuel."""
@@ -81,14 +81,10 @@ class Menu :
             if self.current_menu == "skills" and self.game.selected_unit and i < len(self.game.selected_unit.capacites):
                 skill = self.game.selected_unit.capacites[i]
                 if self.game.player_action_points < skill.cout_pa:
-                    button_color = (100, 100, 100)  # Gris pour les compétences indisponibles
                     text_color = (150, 150, 150)  # Gris clair pour indiquer indisponibilité
                 else:
-                    button_color = (100, 100, 100)  # Couleur normale
                     text_color = BLACK
             else:
-                # Si ce n'est pas un bouton de compétence, utiliser les couleurs normales
-                button_color = (100, 100, 100)
                 text_color = BLACK
 
                 # Spécial pour "Passer le tour"
@@ -96,8 +92,6 @@ class Menu :
                     button_color = (255, 255, 0)  # Jaune
                     text_color = (0, 0, 0)  # Noir
 
-            # Dessiner le bouton
-            #pygame.draw.rect(self.game.screen, button_color, button_rect)
             # Dessiner le texte avec la couleur appropriée
             button_text = font.render(button_name, True, text_color)
             text_rect = button_text.get_rect(center=button_rect.center)
@@ -112,7 +106,7 @@ class Menu :
         title_rect = title_text.get_rect(center=(MAP_WIDTH + ATH_WIDTH // 2, 50))
         self.game.screen.blit(title_text, title_rect)
 
-        # Dessiner tous les boutons
+        # Dessiner tous les boutons de sélection de Pokémon
         for button_name, button_rect, _ in buttons:
             pygame.draw.rect(self.game.screen, (200, 200, 200), button_rect)
             text_surface = font.render(button_name, True, (0, 0, 0))

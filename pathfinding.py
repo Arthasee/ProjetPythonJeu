@@ -7,29 +7,36 @@ class Chemin :
 
     def calculate_path(self, start_x, start_y, end_x, end_y, unit_type):
         """Calcule le chemin de la position de départ à la position finale en utilisant l'algorithme A*."""
+        # Initialiser la liste des cases à explorer (open set) avec la case de départ
         open_set = []
         heapq.heappush(open_set, (0, (start_x, start_y)))
+        # Dictionnaire pour suivre les cases précédentes dans le chemin
         came_from = {}
+        # Dictionnaire pour stocker les coûts du chemin parcouru jusqu'à une case donnée
         g_score = { (start_x, start_y): 0 }
+        # Dictionnaire pour stocker l'estimation du coût total (g + h) pour atteindre la destination
         f_score = { (start_x, start_y): self.heuristic(start_x, start_y, end_x, end_y) }
-
+        # Tant qu'il reste des cases à explorer
         while open_set:
+            # Extraire la case avec le plus petit f_score (priorité élevée dans A*)
             _, current = heapq.heappop(open_set)
-
+            # Si la case courante est la destination, reconstruire et retourner le chemin
             if current == (end_x, end_y):
                 return self.reconstruct_path(came_from, current)
-
+            # Obtenir les voisins valides de la case courante
             neighbors = self.get_neighbors(current[0], current[1], unit_type)
             for neighbor in neighbors:
+                # Calculer le coût du chemin si on passe par cette case
                 tentative_g_score = g_score[current] + 1
-
+                # Si c'est un meilleur chemin vers cette case, mettre à jour les scores
                 if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
                     came_from[neighbor] = current
                     g_score[neighbor] = tentative_g_score
                     f_score[neighbor] = tentative_g_score + self.heuristic(neighbor[0], neighbor[1], end_x, end_y)
+                    # Ajouter la case à explorer si elle n'est pas déjà dans l'open set
                     if neighbor not in [item[1] for item in open_set]:
                         heapq.heappush(open_set, (f_score[neighbor], neighbor))
-
+        # Si aucun chemin n'est trouvé, retourner une liste vide
         return []
 
     def heuristic(self, x1, y1, x2, y2):

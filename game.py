@@ -74,13 +74,14 @@ class Game:
         self.player_action_points = 25  # Réinitialise les points d'actions au début du tour
         # Réinitialiser les PA de déplacement pour tous les Pokémon
         for pokemon in self.player_units:
-            pokemon.movement_points_used = 0
-            pokemon.has_attacked = False
+            pokemon.movement_points_used = 0 # Remet à zéro les points de mouvement utilisés
+            pokemon.has_attacked = False # Réinitialise l'état d'attaque
         if not self.selected_unit and self.player_units: # Si pas d'unité sélectionnée et qu'il y a des unités jouables
             self.info_message = "Unité sélectionnée par défaut : {}".format(self.player_units[0].nom)
             self.selected_unit = self.player_units[0] # Sélectionner la première unité jouable par défaut
 
         try:
+             # Boucle principale du tour du joueur
             while True:  # Permet de continuer le tour jusqu'à ce que le joueur termine manuellement
                 # Rafraîchir l'affichage avec les surlignages
                 if self.menu.current_menu == "move":
@@ -88,7 +89,7 @@ class Game:
                 else:
                     self.flip_display()
                 pygame.display.flip()
-
+                # Gestion des événements (clics, survols, etc.)
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
@@ -97,7 +98,7 @@ class Game:
                     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                         mouse_x, mouse_y = event.pos
                         buttons = self.menu.get_menu_buttons()
-
+                        # Si le joueur est dans le menu principal, configure les boutons correspondants
                         if self.menu.current_menu == "main":
                             buttons = [
                                 ("Attaquer", self.attack_button_rect, lambda: self.start_attack_action()),
@@ -105,21 +106,21 @@ class Game:
                                 ("Pokemon", self.pokemon_button_rect, lambda: self.menu.select_pokemon_action()),
                                 ("Passer le tour", self.pass_turn_button_rect, lambda: self.end_turn_and_exit())
                             ]
-
+                        # Si le joueur est dans le menu des compétences, configure les boutons correspondants
                         elif self.menu.current_menu == "skills" and self.selected_unit:
                             buttons = [
                                 (skill.nom, rect, lambda skill=skill: self.use_skill(skill))
                                 for skill, rect in zip(self.selected_unit.capacites, [self.attack_button_rect, self.move_button_rect, self.pokemon_button_rect, self.pass_turn_button_rect])
                             ]
                             buttons.append(("Retour", self.back_button_rect, lambda: self.menu.switch_to_menu("main")))
-
+                        # Si le joueur est dans le menu de déplacement
                         elif self.menu.current_menu == "move":
                             buttons = [
                                 ("Valider", self.attack_button_rect, lambda: self.confirm_move()),
                                 ("Annuler", self.move_button_rect, lambda: self.cancel_move()),
                                 ("Retour", self.back_button_rect, lambda: self.menu.switch_to_menu("main"))
                             ]
-
+                        # Si le joueur est dans le menu de sélection de cible
                         elif self.menu.current_menu == "target":
                             # Ajout de la logique de sélection de cible lorsque le menu actuel est "target"
                             targets = self.get_available_targets()
@@ -168,7 +169,7 @@ class Game:
     def handle_enemy_turn(self):
         """IA qui effectue des déplacements et des attaques."""
         self.enemy_action_points = 25 # Réinitialise les points d'actions (PA) au début du tour pour l'IA
-
+        # Réinitialiser l'état des Pokémon ennemis (points de mouvement et attaques)
         for enemy in self.enemy_units:
             enemy.movement_points_used = 0
             enemy.has_attacked = False
@@ -191,17 +192,17 @@ class Game:
                 if max_movement_points <= 0:
                     print(f"{enemy.nom} ne peut plus se déplacer.") #Debug
                     break
-
+                # Récupère les positions accessibles en fonction des points de mouvement
                 accessible_positions = self.get_accessible_positions(enemy, max_distance=max_movement_points)
                 if accessible_positions:
                     # Se déplacer vers la cible
                     target_position = min(accessible_positions, key=lambda pos: abs(pos[0] - target.x) + abs(pos[1] - target.y))
                     path = self.chemin.calculate_path(enemy.x, enemy.y, target_position[0], target_position[1], enemy.type)
-
+                    # Si aucun chemin valide n'est trouvé, l'ennemi reste sur place
                     if not path:
                         print(f"{enemy.nom} ne peut pas atteindre la cible.")  #Debug
                         break
-
+                    # Parcourir le chemin pour déplacer l'ennemi
                     for (x, y) in path:
                         if enemy.movement_points_used >= 10 or self.enemy_action_points <= 0:
                             break
