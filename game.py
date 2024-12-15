@@ -324,7 +324,7 @@ class Game:
 
         for rect in self.maps.collisions:
             if future_rect.colliderect(rect):
-                # print(f"Collision détectée avec {rect}")
+                 
                 return True
         return False
     

@@ -36,7 +36,7 @@ class Screen:
         self.width = width
         self.height = height
         self.title = title
-        self.background_color = background_color
+        self.background_color = background_color #La couleur de l'arrière-plan de la fenêtre, définie par défaut (noir).
 
         # Initialisation de Pygame et de l'écran
         pygame.init()
@@ -46,7 +46,7 @@ class Screen:
         self.framerate = 60  # Fréquence d'images par seconde (FPS)
 
     def update(self):
-        """Met à jour l'écran en affichant tout changement."""
+        """Cette méthode est appelée pour mettre à jour l'affichage à chaque itération du jeu"""
         pygame.display.flip()  # Rafraîchit l'affichage
         self.clock.tick(self.framerate)  # Limite la vitesse du jeu à 60 FPS
         self.screen.fill(self.background_color)  # Remplit l'écran avec la couleur de fond
